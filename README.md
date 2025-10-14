@@ -7,7 +7,7 @@ Feel free to customize this template to fit the specific needs of your Laravel a
 
 ## Technologies
 
-- [Laravel 11](https://laravel.com/docs/)
+- [Laravel 12 (Updated from v11)](https://laravel.com/docs/)
 - [shadcn/ui](https://ui.shadcn.com/docs)
 - [InertiaJS](https://inertiajs.com/)
 
