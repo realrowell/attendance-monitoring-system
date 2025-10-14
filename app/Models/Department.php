@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Department extends Model
 {
@@ -18,7 +19,12 @@ class Department extends Model
         parent::boot();
         self::creating(function ($model) {
             $prefix = 'dept';
-            $model->id = IdGenerator::generate(['table' => 'departments', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
+            $model->id = IdGenerator::generate(['table' => 'departments', 'length' => 20, 'prefix' =>$prefix.str()->random(13)]);
+        });
+        static::creating(function ($model) {
+            if (empty($model->public_id)) {
+                $model->public_id = (string) Str::uuid();
+            }
         });
     }
 }

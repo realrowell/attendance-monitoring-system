@@ -3,7 +3,7 @@
 import * as React from "react"
 import {
   Command,
-  Frame, Home, UsersRound,
+  Frame, Home, UsersRound, BarChartHorizontalBig,
   LifeBuoy,
   Send,
   SquareTerminal,
@@ -38,38 +38,43 @@ const data = {
     },
     {
       title: "Employees",
-      url: route("employee.list"),
+      url: route("employees.list"),
       icon: UsersRound,
     },
     {
-      title: "Projects",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-      ],
+      title: "Departments",
+      url: route("departments.list"),
+      icon: BarChartHorizontalBig,
     },
-  {
-      title: "Design Engineering",
-      url: "#",
-      icon: Frame,
-  },
-  ],
-  navSecondary: [
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
+//     {
+//       title: "Projects",
+//       url: "#",
+//       icon: SquareTerminal,
+//       isActive: true,
+//       items: [
+//         {
+//           title: "History",
+//           url: "#",
+//         },
+//       ],
+//     },
+//   {
+//       title: "Design Engineering",
+//       url: "#",
+//       icon: Frame,
+//   },
+//   ],
+//   navSecondary: [
+//     {
+//       title: "Support",
+//       url: "#",
+//       icon: LifeBuoy,
+//     },
+//     {
+//       title: "Feedback",
+//       url: "#",
+//       icon: Send,
+//     },
   ],
 }
 
@@ -97,7 +102,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={auth.user} />
