@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\EmpDetail;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -15,26 +16,28 @@ class EmployeeManagementController extends Controller
     }
     public function CreateEmployee(){
         $data = $this->request->validate([
-            'first_name' => 'required|string|max:255',
-            'middle_name' => 'nullable|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'fname' => 'required|string|max:255',
+            'mname' => 'nullable|string|max:255',
+            'lname' => 'required|string|max:255',
             'suffix' => 'nullable|string',
-            'dept_id' => 'required|string',
-            'emp_class' => 'required|string',
-            'is_active' => 'nullable|boolean'
+            'deptId' => 'required|string',
+            'empClass' => 'required|string',
+            'isActive' => 'nullable|boolean'
         ]);
 
+        $dept = Department::where('public_id',$data['deptId'])->first();
+
         $emp_detail = EmpDetail::create([
-            'last_name' => $data['last_name'],
-            'first_name' => $data['first_name'],
-            'middle_name' => $data['middle_name'],
+            'last_name' => $data['lname'],
+            'first_name' => $data['fname'],
+            'middle_name' => $data['mname'],
             'suffix' => $data['suffix']
         ]);
         $employee = Employee::create([
-            'dept_id' => $data['dept_id'],
-            'emp_class' => $data['emp_class'],
+            'dept_id' => $dept->id,
+            'emp_class' => $data['empClass'],
             'emp_details_id' => $emp_detail->id,
-            'is_active' => $data['is_active']
+            'is_active' => $data['isActive']
         ]);
     }
 }

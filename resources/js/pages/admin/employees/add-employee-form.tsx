@@ -93,7 +93,15 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
                         onChange={handleChange}
                         className="border p-2 w-full rounded"
                     />
-                    <Select>
+                    <Select
+                        value={formData.suffix}                // controlled value
+                        onValueChange={(value) =>              // called when user selects an option
+                            setFormData((prev) => ({
+                            ...prev,
+                            suffix: value,                     // update the field
+                            }))
+                        }
+                    >
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Suffix" />
                         </SelectTrigger>
@@ -110,7 +118,15 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
             <div className="flex flex-row w-full gap-3">
                 <div className="flex flex-col w-1/2 gap-2">
                     <label htmlFor="deptId">Department</label>
-                    <Select>
+                    <Select
+                        value={formData.deptId}                // controlled value
+                        onValueChange={(value) =>              // called when user selects an option
+                            setFormData((prev) => ({
+                            ...prev,
+                            deptId: value,                     // update the field
+                            }))
+                        }
+                    >
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Department" />
                         </SelectTrigger>
@@ -141,7 +157,15 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
                 </div>
                 <div className="flex flex-col w-1/2 gap-2">
                     <label htmlFor="name">Classification</label>
-                    <Select>
+                    <Select
+                        value={formData.empClass}                // controlled value
+                        onValueChange={(value) =>              // called when user selects an option
+                            setFormData((prev) => ({
+                            ...prev,
+                            empClass: value,                     // update the field
+                            }))
+                        }
+                    >
                         <SelectTrigger className="w-full">
                             <SelectValue placeholder="Department" />
                         </SelectTrigger>

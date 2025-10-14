@@ -12,7 +12,7 @@ import { router } from '@inertiajs/react';
 
 export default function AddDepartmentDialog(){
     const handleFormSubmit = async (data: any) => {
-        console.log("Form submitted:", data);
+        // console.log("Form submitted:", data);
         router.post(route('create.department'), data, {
         onSuccess: () => {
             console.log('Department added successfully!');

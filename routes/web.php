@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\DepartmentManagementController;
+use App\Http\Controllers\Admin\EmployeeManagementController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -32,6 +33,9 @@ Route::middleware(['auth', 'verified'])->controller(AdminPageController::class)-
 
 Route::middleware(['auth', 'verified'])->controller(DepartmentManagementController::class)->group(function(){
     Route::post('/create-department', 'CreateDepartment')->name('create.department');
+});
+Route::middleware(['auth', 'verified'])->controller(EmployeeManagementController::class)->group(function(){
+    Route::post('/create-employee', 'CreateEmployee')->name('create.employee');
 });
 
 require __DIR__.'/auth.php';

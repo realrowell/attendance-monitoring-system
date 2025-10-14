@@ -21,7 +21,7 @@ class EmpDetail extends Model
         parent::boot();
         self::creating(function ($model) {
             $prefix = 'empd';
-            $model->id = IdGenerator::generate(['table' => 'employee_details', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
+            $model->id = IdGenerator::generate(['table' => 'emp_details', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
         });
     }
 

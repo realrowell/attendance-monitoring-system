@@ -8,6 +8,17 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import AddEmployeeForm from "@/pages/admin/employees/add-employee-form";
+import { router } from '@inertiajs/react';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
 
 interface AddEmployeeDialogProps {
     suffixes: Record<string, string>;
@@ -20,12 +31,24 @@ const AddEmployeeDialog: React.FC<AddEmployeeDialogProps> = ({
         empClasses,
         departments,
     }) => {
+        const [formOpen, setFormOpen] = useState(false);
+        const [alertOpen, setAlertOpen] = useState(false);
         const handleFormSubmit = async (data: any) => {
-        console.log("Form submitted:", data);
+        // console.log("Form submitted:", data);
+        router.post(route('create.employee'), data, {
+            onSuccess: () => {
+                console.log('Employee added successfully!');
+                // setFormOpen(false);
+                setAlertOpen(true);
+            },
+            onError: (errors) => {
+                console.error(errors);
+            },
+        });
     };
 
     return (
-        <Dialog>
+        <Dialog open={formOpen} onOpenChange={setFormOpen}>
             <DialogTrigger asChild>
                 <Button>Add Employee</Button>
             </DialogTrigger>
@@ -43,6 +66,21 @@ const AddEmployeeDialog: React.FC<AddEmployeeDialogProps> = ({
                     empClasses={empClasses}
                     departments={departments}
                 />
+                <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
+                    <AlertDialogContent>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>Success!</AlertDialogTitle>
+                        <AlertDialogDescription>
+                        Employee was added successfully.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogAction onClick={() => [setAlertOpen(false),setFormOpen(false)]}>
+                            OK
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
             </DialogContent>
         </Dialog>
     );

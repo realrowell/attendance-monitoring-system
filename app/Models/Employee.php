@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Employee extends Model
 {
@@ -26,6 +27,11 @@ class Employee extends Model
         self::creating(function ($model) {
             $prefix = 'emp';
             $model->id = IdGenerator::generate(['table' => 'employees', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
+        });
+        static::creating(function ($model) {
+            if (empty($model->public_id)) {
+                $model->public_id = (string) Str::uuid();
+            }
         });
     }
 
