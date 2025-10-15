@@ -7,7 +7,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import AddEmployeeForm from "@/pages/admin/employees/add-employee-form";
+import AddEmployeeForm from "@/pages/admin/employees/partials/add-employee-form";
 import { router } from '@inertiajs/react';
 import {
   AlertDialog,

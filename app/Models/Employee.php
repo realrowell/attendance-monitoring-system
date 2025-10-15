@@ -41,4 +41,12 @@ class Employee extends Model
             self::EMP_BIOSEED => 'Bioseed'
         ];
     }
+
+    public function empDetails(){
+        return $this->hasOne(EmpDetail::class, 'id', 'emp_details_id');
+    }
+
+    public function departments(){
+        return $this->hasOne(Department::class, 'id', 'dept_id');
+    }
 }

@@ -24,4 +24,17 @@ class DepartmentManagementController extends Controller
 
         // return redirect()->back()->with(['success'=>'successfully']);
     }
+
+    public function UpdateDepartment(){
+        $data = $this->request->validate([
+            'deptId' => 'required|string|exists:departments,public_id',
+            'dept_name' => 'required|string|max:255'
+        ], [
+            'deptId.exists' => 'The selected department is invalid or does not exist.',
+        ]);
+
+        $department = Department::where('public_id', $data['deptId'])->update([
+            'dept_name' => $data['dept_name']
+        ]);
+    }
 }

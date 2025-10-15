@@ -16,8 +16,17 @@ class AdminPageController extends Controller
             'suffixes' => EmpDetail::suffixOptions(),
             'empClasses' => Employee::empClassOptions(),
             'departments' => Department::get(),
+            'employees' => Employee::with(['empDetails','departments'])->get(),
         ];
         return Inertia::render('admin/employees/employee-list', $data);
+    }
+
+    public function EmployeeDetailsPage($empId){
+        $data = [
+            'employee' => Employee::where('public_id', $empId)->first(),
+        ];
+
+        return Inertia::render('admin/employees/employee-details')->with($data);
     }
 
     public function DepartmentListPage(){

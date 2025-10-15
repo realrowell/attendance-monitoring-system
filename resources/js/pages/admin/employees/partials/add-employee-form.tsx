@@ -109,7 +109,7 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
                             <SelectItem value='null'>N/A</SelectItem>
                             {suffixes &&
                                 Object.entries(suffixes).map(([key, label]) => (
-                                <SelectItem key={key} value={key}>{label}</SelectItem>
+                                <SelectItem key={label} value={label}>{label}</SelectItem>
                             ))}
                         </SelectContent>
                     </Select>

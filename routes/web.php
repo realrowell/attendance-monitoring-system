@@ -27,12 +27,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 Route::middleware(['auth', 'verified'])->controller(AdminPageController::class)->group(function(){
-    Route::get('/employees-list', 'EmployeeListPage')->name('employees.list');
-    Route::get('/departments-list', 'DepartmentListPage')->name('departments.list');
+    Route::get('/employees/emp-list', 'EmployeeListPage')->name('employees.list');
+    Route::get('/employees/emp-details/{id}', 'EmployeeDetailsPage')->name('employee.details');
+    Route::get('/departments/dept-list', 'DepartmentListPage')->name('departments.list');
 });
 
 Route::middleware(['auth', 'verified'])->controller(DepartmentManagementController::class)->group(function(){
     Route::post('/create-department', 'CreateDepartment')->name('create.department');
+    Route::post('/update-department', 'UpdateDepartment')->name('update.department');
 });
 Route::middleware(['auth', 'verified'])->controller(EmployeeManagementController::class)->group(function(){
     Route::post('/create-employee', 'CreateEmployee')->name('create.employee');

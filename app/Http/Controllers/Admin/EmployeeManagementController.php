@@ -24,6 +24,9 @@ class EmployeeManagementController extends Controller
             'empClass' => 'required|string',
             'isActive' => 'nullable|boolean'
         ]);
+        if($data['suffix'] == 'null'){
+            $data['suffix'] = null;
+        }
 
         $dept = Department::where('public_id',$data['deptId'])->first();
 
