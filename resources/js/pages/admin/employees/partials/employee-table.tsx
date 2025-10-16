@@ -5,16 +5,17 @@ import { usePage } from "@inertiajs/react";
 interface DepartmentTableProps extends Record<string, any> {
     employees: any[];
     empClasses: Record<string, string>;
+    suffixes: Record<string, string>
 }
 
 export default function EmployeeTable() {
-    const { employees, empClasses } = usePage<DepartmentTableProps>().props;
-    console.log(employees);
+    const { employees, empClasses, suffixes } = usePage<DepartmentTableProps>().props;
+    // console.log(employees);
 
     return (
         <div className="p-6">
             {/* <h2 className="text-lg font-semibold mb-4">Employee List</h2> */}
-            <DataTable columns={columns} data={employees} meta={{ empClasses }} />
+            <DataTable columns={columns} data={employees} meta={{ empClasses, suffixes }} />
         </div>
     )
 }

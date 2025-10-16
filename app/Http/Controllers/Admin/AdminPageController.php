@@ -23,7 +23,10 @@ class AdminPageController extends Controller
 
     public function EmployeeDetailsPage($empId){
         $data = [
-            'employee' => Employee::where('public_id', $empId)->first(),
+            'suffixes' => EmpDetail::suffixOptions(),
+            'empClasses' => Employee::empClassOptions(),
+            'departments' => Department::get(),
+            'employee' => Employee::where('public_id', $empId)->with(['empDetails','departments'])->first(),
         ];
 
         return Inertia::render('admin/employees/employee-details')->with($data);

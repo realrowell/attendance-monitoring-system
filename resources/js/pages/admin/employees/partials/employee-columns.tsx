@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Button } from "@/components/ui/button"
-import { MoreHorizontal, Edit, Trash2 } from "lucide-react"
+import { MoreHorizontal, Edit, Trash2, ExternalLink } from "lucide-react"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -19,10 +19,12 @@ export type Employee = {
     name: string
     departments: any
     emp_class: string
+    suffix: string
 }
 
 interface EmployeeListPageProps{
     empClasses: Record<string, string>;
+    suffixes: Record<string, string>;
 }
 
 function ActionMenu({ employee }: { employee: Employee }) {
@@ -64,7 +66,7 @@ function ActionMenu({ employee }: { employee: Employee }) {
             <DropdownMenuItem
                 className="cursor-pointer"
             >
-                {/* <Link href={route('employee.details',{ id: employee.public_id })}><Edit className="h-4 w-4 mr-2" /> Edit</Link> */}
+                <Link href={route('employee.details',{ id: employee.public_id })} className="flex flex-row"><ExternalLink className="h-4 w-4 mr-2" /> View Details</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -83,7 +85,10 @@ export const columns: ColumnDef<Employee>[] = [
     {
         accessorKey: "name",
         header: "Name",
-        cell: ({row}) => {
+        cell: ({row, table}) => {
+            const suffix = row.original.emp_details.suffix;
+            const suffixes = (table.options.meta as EmployeeListPageProps | undefined)?.suffixes || {};
+
             const empDetail = row.original.emp_details;
             const middleInitial = empDetail.middle_name
                 ? `${empDetail.middle_name.charAt(0)}.` // Example: "A."
@@ -92,7 +97,7 @@ export const columns: ColumnDef<Employee>[] = [
                 empDetail.first_name,
                 middleInitial,
                 empDetail.last_name,
-                empDetail.suffix,
+                suffixes[suffix] || suffix
             ].filter(Boolean).join(" ");
             return fullName
         }
@@ -110,7 +115,7 @@ export const columns: ColumnDef<Employee>[] = [
         cell: ({ row, table }) => {
             const empClass = row.original.emp_class;
             const empClasses = (table.options.meta as EmployeeListPageProps | undefined)?.empClasses || {};
-            return empClasses[empClass] || empClass; // ✅ Will now display "Bioseed" or "Agency"
+            return empClasses[empClass] || empClass;
         },
     },
     {
