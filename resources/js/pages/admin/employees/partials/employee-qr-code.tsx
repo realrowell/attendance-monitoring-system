@@ -55,6 +55,7 @@ export default function EmployeeQRCode({ employee, suffixes }: EmployeeQRCodePro
                 size={300}
                 includeMargin={true}
             />
+
             <p className="mt-2 text-xl text-gray-400">{fullName}</p>
         </div>
     );

@@ -4,6 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { InputError } from "@/components/ui/input-error";
 import EmployeeQRCode from "./partials/employee-qr-code";
+import EmployeeQrScanner from "./partials/employee-qr-scanner";
 
 export type Employee = {
     emp_details: any
@@ -94,6 +95,7 @@ export default function EmployeeDetails(){
                         </div>
                         <div className="flex flex-col md:w-1/4 sm:w-full w-full">
                             <EmployeeQRCode employee={employee} suffixes={suffixes} />
+                            <EmployeeQrScanner/>
                         </div>
                     </div>
                     <div className="flex flex-row items-center justify-between">
