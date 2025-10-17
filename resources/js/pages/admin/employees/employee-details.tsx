@@ -3,6 +3,7 @@ import { Head, usePage } from "@inertiajs/react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { InputError } from "@/components/ui/input-error";
+import EmployeeQRCode from "./partials/employee-qr-code";
 
 export type Employee = {
     emp_details: any
@@ -61,33 +62,38 @@ export default function EmployeeDetails(){
                         </div>
 
                     </div>
-                    <div className="flex flex-col md:w-1/4 sm:w-full w-full gap-5">
-                        <div className="flex flex-col gap-2">
-                            <Label htmlFor="FullName">Name</Label>
-                            <Input
-                                id="FullName"
-                                name="fullname"
-                                value={fullName}
-                                disabled
-                            />
+                    <div className="flex md:flex-row sm:flex-col flex-col gap-5 items-start">
+                        <div className="flex flex-col md:w-1/4 sm:w-full w-full gap-5">
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="FullName">Name</Label>
+                                <Input
+                                    id="FullName"
+                                    name="fullname"
+                                    value={fullName}
+                                    disabled
+                                />
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="Department">Department</Label>
+                                <Input
+                                    id="Department"
+                                    name="department"
+                                    value={employee.departments.dept_name}
+                                    disabled
+                                />
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <Label htmlFor="Department">Employee Classification</Label>
+                                <Input
+                                    id="Department"
+                                    name="department"
+                                    value={empClassLabel}
+                                    disabled
+                                />
+                            </div>
                         </div>
-                        <div className="flex flex-col gap-2">
-                            <Label htmlFor="Department">Department</Label>
-                            <Input
-                                id="Department"
-                                name="department"
-                                value={employee.departments.dept_name}
-                                disabled
-                            />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <Label htmlFor="Department">Employee Classification</Label>
-                            <Input
-                                id="Department"
-                                name="department"
-                                value={empClassLabel}
-                                disabled
-                            />
+                        <div className="flex flex-col md:w-1/4 sm:w-full w-full">
+                            <EmployeeQRCode employee={employee} suffixes={suffixes} />
                         </div>
                     </div>
                     <div className="flex flex-row items-center justify-between">
