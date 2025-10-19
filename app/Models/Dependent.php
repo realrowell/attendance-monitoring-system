@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Dependent extends Model
 {
@@ -27,6 +28,12 @@ class Dependent extends Model
         self::creating(function ($model) {
             $prefix = 'depd';
             $model->id = IdGenerator::generate(['table' => 'dependents', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
+        });
+        static::creating(function ($model) {
+            if (empty($model->public_id)) {
+                $uuid = Str::uuid();
+                $model->public_id = hash('sha256', $uuid);
+            }
         });
     }
 

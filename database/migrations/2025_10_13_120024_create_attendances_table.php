@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('ref');
+            $table->string('ref')->index();
             $table->string('activity_id');
             $table->dateTime('date_time');
             $table->string('mop')->nullable();

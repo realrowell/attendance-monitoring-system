@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('dependents', function (Blueprint $table) {
             $table->string('id')->primary();
+            $table->string('public_id')->index();
             $table->string('emp_id');
             $table->string('depd_type')->nullable();
             $table->string('full_name');

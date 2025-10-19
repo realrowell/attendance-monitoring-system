@@ -32,15 +32,15 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-    ) => {
-    const { name, value, type } = e.target;
+        ) => {
+        const { name, value, type } = e.target;
 
-    setFormData((prev) => ({
-        ...prev,
-            [name]: type === "checkbox"
-            ? (e.target as HTMLInputElement).checked // ✅ safely cast for checkboxes
-            : value,
-        }));
+        setFormData((prev) => ({
+            ...prev,
+                [name]: type === "checkbox"
+                ? (e.target as HTMLInputElement).checked // ✅ safely cast for checkboxes
+                : value,
+            }));
     };
 
     const handleSubmit = async (e: FormEvent) => {
@@ -187,7 +187,7 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
                     onChange={handleChange}
                 />
                 <label htmlFor="isActive" className="font-medium">
-                    Active Employee
+                    Active
                 </label>
             </div>
             <Button type='submit'>{isSubmitting ? "Submitting..." : "Submit"}</Button>

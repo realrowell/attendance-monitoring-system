@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->uuid('public_id');
+            $table->string('public_id')->index();
             $table->string('dept_name');
             $table->timestamps();
         });

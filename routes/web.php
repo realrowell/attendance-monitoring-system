@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityManagementController;
 use App\Http\Controllers\Admin\AdminPageController;
 use App\Http\Controllers\Admin\DepartmentManagementController;
+use App\Http\Controllers\Admin\DependentManagementController;
 use App\Http\Controllers\Admin\EmployeeManagementController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -30,6 +32,7 @@ Route::middleware(['auth', 'verified'])->controller(AdminPageController::class)-
     Route::get('/employees/emp-list', 'EmployeeListPage')->name('employees.list');
     Route::get('/employees/emp-details/{id}', 'EmployeeDetailsPage')->name('employee.details');
     Route::get('/departments/dept-list', 'DepartmentListPage')->name('departments.list');
+    Route::get('/activities/activity-list', 'ActivityListPage')->name('activity.list');
 });
 
 Route::middleware(['auth', 'verified'])->controller(DepartmentManagementController::class)->group(function(){
@@ -38,6 +41,12 @@ Route::middleware(['auth', 'verified'])->controller(DepartmentManagementControll
 });
 Route::middleware(['auth', 'verified'])->controller(EmployeeManagementController::class)->group(function(){
     Route::post('/create-employee', 'CreateEmployee')->name('create.employee');
+});
+Route::middleware(['auth', 'verified'])->controller(DependentManagementController::class)->group(function(){
+    Route::post('/dependents/create-dependent', 'CreateDependent')->name('create.dependent');
+});
+Route::middleware(['auth', 'verified'])->controller(ActivityManagementController::class)->group(function(){
+    Route::post('/activities/create-activity', 'CreateActivity')->name('create.activity');
 });
 
 require __DIR__.'/auth.php';

@@ -5,26 +5,23 @@ import { Input } from "@/components/ui/input";
 import { InputError } from "@/components/ui/input-error";
 import EmployeeQRCode from "./partials/employee-qr-code";
 import EmployeeQrScanner from "./partials/employee-qr-scanner";
+import DependentTable from "./partials/employee-dependents-table";
+import AddDependentDialog from "./partials/add-dependent-dialog";
 
-export type Employee = {
-    emp_details: any
-    public_id: string
-    name: string
-    departments: any
-    emp_class: string
-    suffix: string
+export type Dependents = {
+    dependents: any
 }
 
 interface EmployeeDetailsPageProps extends Record<string, any> {
     suffixes: Record<string, string>;
     empClasses: Record<string, string>;
     departments: any[];
-    employee: Employee;
+    dependents: Dependents;
+    dependentTypes: Record<string, string>;
 }
 
 export default function EmployeeDetails(){
-    const { suffixes, empClasses, departments, employee } =
-        usePage<EmployeeDetailsPageProps>().props;
+    const { suffixes, empClasses, employee, dependentTypes } = usePage<EmployeeDetailsPageProps>().props;
 
     const empDetail = employee.emp_details;
 
@@ -61,7 +58,6 @@ export default function EmployeeDetails(){
                             <h2 className="text-2xl ">Employee Details</h2>
                             <p>The employee’s information is displayed below. You may review or update the details as needed.</p>
                         </div>
-
                     </div>
                     <div className="flex md:flex-row sm:flex-col flex-col gap-5 items-start">
                         <div className="flex flex-col md:w-1/4 sm:w-full w-full gap-5">
@@ -95,15 +91,20 @@ export default function EmployeeDetails(){
                         </div>
                         <div className="flex flex-col md:w-1/4 sm:w-full w-full">
                             <EmployeeQRCode employee={employee} suffixes={suffixes} />
-                            <EmployeeQrScanner/>
+                            {/* <EmployeeQrScanner/> */}
                         </div>
                     </div>
-                    <div className="flex flex-row items-center justify-between">
-                        <div className="flex flex-col text-start items-start gap-1">
+                    <div className="flex md:flex-row sm:flex-col flex-col items-start justify-between gap-3">
+                        <div className="flex flex-col text-start items-start gap-1 w-full">
                             <h2 className="text-2xl ">Dependents</h2>
                             <p>Manage the employee’s dependents below — add or remove as needed.</p>
                         </div>
-
+                        <div className="flex flex-col items-end w-full">
+                            <AddDependentDialog depdTypes={dependentTypes} empId={employee.public_id}/>
+                        </div>
+                    </div>
+                    <div className="flex flex-row items-center">
+                        <DependentTable />
                     </div>
                 </div>
             </div>

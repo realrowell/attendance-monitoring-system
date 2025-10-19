@@ -1,44 +1,49 @@
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import AddEmployeeForm from "@/pages/admin/employees/partials/add-employee-form";
 import { router } from '@inertiajs/react';
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogAction,
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogAction,
 } from "@/components/ui/alert-dialog";
 import { useState } from "react";
+import AddDependentForm from "./add-dependent-form";
 
-interface AddEmployeeDialogProps {
-    suffixes: Record<string, string>;
-    empClasses: Record<string, string>;
-    departments: any[];
+interface AddDependentDialogProps {
+    depdTypes: Record<string, string>;
+    empId: string;
 }
 
-const AddEmployeeDialog: React.FC<AddEmployeeDialogProps> = ({
-        suffixes,
-        empClasses,
-        departments,
+const AddDependentDialog: React.FC<AddDependentDialogProps> = ({
+        depdTypes, empId
     }) => {
         const [formOpen, setFormOpen] = useState(false);
         const [alertOpen, setAlertOpen] = useState(false);
-        const handleFormSubmit = async (data: any) => {
-            // console.log("Form submitted:", data);
-            router.post(route('create.employee'), data, {
+
+        const handleFormSubmit = async (formData: {
+            fullName: string;
+            depdType: string | null;
+            isActive: boolean;
+        }) => {
+            // Append the empId here before sending
+            const payload = { ...formData, empId };
+
+            console.log("Submitting to backend:", payload);
+
+            router.post(route("create.dependent"), payload, {
                 onSuccess: () => {
-                    console.log('Employee added successfully!');
-                    // setFormOpen(false);
+                    console.log("Dependent added successfully!");
                     setAlertOpen(true);
                 },
                 onError: (errors) => {
@@ -50,28 +55,26 @@ const AddEmployeeDialog: React.FC<AddEmployeeDialogProps> = ({
     return (
         <Dialog open={formOpen} onOpenChange={setFormOpen}>
             <DialogTrigger asChild>
-                <Button>Add Employee</Button>
+                <Button>Add Dependent</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                <DialogTitle>Add Employee</DialogTitle>
+                <DialogTitle>Add Dependent</DialogTitle>
                 <DialogDescription>
-                    Fill out the employee details below.
+                    Fill out the Dependent details below.
                 </DialogDescription>
                 </DialogHeader>
 
-                <AddEmployeeForm
+                <AddDependentForm
                     onSubmit={handleFormSubmit}
-                    suffixes={suffixes}
-                    empClasses={empClasses}
-                    departments={departments}
+                    depdTypes={depdTypes}
                 />
                 <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
                     <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Success!</AlertDialogTitle>
                         <AlertDialogDescription>
-                        Employee was added successfully.
+                        Dependent was added successfully.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
@@ -86,4 +89,4 @@ const AddEmployeeDialog: React.FC<AddEmployeeDialogProps> = ({
     );
 };
 
-export default AddEmployeeDialog;
+export default AddDependentDialog;

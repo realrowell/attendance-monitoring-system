@@ -16,7 +16,7 @@ class Activity extends Model
     public const TYPE_HYBRID = 'hybrid';
 
     protected $fillable = [
-        'activity_title',
+        'activity_name',
         'activity_desc',
         'date_time',
         'activity_status',
@@ -31,21 +31,24 @@ class Activity extends Model
         self::creating(function ($model) {
             $prefix = 'act';
             $model->id = IdGenerator::generate(['table' => 'activities', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
-            $model->reference = IdGenerator::generate(['table' => 'activities', 'field' => 'ref', 'length' => 8, 'prefix' => date(format: 'ym').str()->random(3)]);
+            $model->ref= IdGenerator::generate(['table' => 'activities', 'field' => 'ref', 'length' => 8, 'prefix' => date(format: 'ym').str()->random(3)]);
         });
     }
 
     public static function activityStatusOptions(){
         return [
             self::STATUS_DRAFT => [
+                'status' => 'Draft',
                 'present' => 'Drafting',
                 'past' => 'Drafted',
             ],
             self::STATUS_PUBLISHED => [
+                'status' => 'Publish',
                 'present' => 'Publishing',
                 'past' => 'Published',
             ],
             self::STATUS_ARCHIVED => [
+                'status' => 'Archive',
                 'present' => 'Archiving',
                 'past' => 'Archived',
             ],

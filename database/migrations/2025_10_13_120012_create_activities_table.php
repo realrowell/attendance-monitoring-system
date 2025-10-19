@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('ref');
+            $table->string('ref')->index();
             $table->string('activity_type')->nullable();
             $table->string('activity_name');
             $table->string('activity_desc')->nullable();
