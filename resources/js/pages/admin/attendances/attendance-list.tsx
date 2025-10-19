@@ -1,24 +1,22 @@
 import AuthenticatedLayout from "@/layouts/authenticated-layout";
 import { Head, usePage } from "@inertiajs/react";
 import { DateTime } from "luxon";
+import AddAttendanceDialog from "./partials/add-attendance-dialog";
 
-interface Activities {
-    ref: string;
-    activity_title: string;
-    activity_desc: string;
-    date_time: DateTime;
-    activity_status: string;
-    activity_type: string;
-}
+// interface Attendances {
+//     ref: string;
+//     activities: any;
+//     date_time: DateTime;
+//     mop: any;
+// }
 
-interface ActivityListPageProps extends Record<string, any> {
-    activities: Activities[];
-    activityStatusOptions: any;
-    activityTypeOptions: any;
-}
+// interface AttendanceListPageProps extends Record<string, any> {
+//     attendances: Attendances[];
+//     partTypeOptions: any;
+// }
 
-export default function ActivityList(){
-    const { activities, activityStatusOptions, activityTypeOptions } = usePage<ActivityListPageProps>().props;
+export default function AttendanceList(){
+    // const { attendances, partTypeOptions } = usePage<AttendanceListPageProps>().props;
 
     return (
         <AuthenticatedLayout
@@ -30,10 +28,10 @@ export default function ActivityList(){
                 <div className="flex-1 rounded-xl bg-muted/50 h-full">
                     <div className="flex flex-row items-center justify-between p-6">
                         <div className="flex flex-col text-start items-start gap-1">
-                            <h2 className="text-2xl ">Activity List</h2>
-                            <p>View the list of activities here.</p>
+                            <h2 className="text-2xl ">Attendance List</h2>
+                            <p>View the list of attendances here.</p>
                         </div>
-                        {/* <AddActivityDialog/> */}
+                        <AddAttendanceDialog/>
                     </div>
                     {/* <ActivityTable /> */}
                 </div>

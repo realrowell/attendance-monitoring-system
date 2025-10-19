@@ -59,10 +59,10 @@ class AdminPageController extends Controller
     public function AttendanceListPage(){
         $data = [
             'attendances' => Attendance::get(),
-            'part_Types' => Attendance::mopOptions(),
-            'att_employees' => AttEmployee::get(),
-            'att_dependents' => AttDependent::get(),
+            'partTypeOptions' => Attendance::mopOptions(),
+            'attEmployees' => AttEmployee::get(),
+            'attDependents' => AttDependent::get(),
         ];
-        return Inertia::render('admin/attendances/attendance-list');
+        return Inertia::render('admin/attendances/attendance-list', $data);
     }
 }

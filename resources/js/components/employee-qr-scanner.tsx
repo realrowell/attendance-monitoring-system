@@ -11,7 +11,7 @@ export default function QrScanner() {
         try {
             const parsed = JSON.parse(data);
             setScanResult(JSON.stringify(parsed, null, 2));
-            console.log("QR Data:", setScanResult);
+            console.log("QR Data:", parsed.id);
         } catch {
             setError("Invalid QR content — not JSON");
         }
