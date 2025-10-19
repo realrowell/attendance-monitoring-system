@@ -32,7 +32,8 @@ Route::middleware(['auth', 'verified'])->controller(AdminPageController::class)-
     Route::get('/employees/emp-list', 'EmployeeListPage')->name('employees.list');
     Route::get('/employees/emp-details/{id}', 'EmployeeDetailsPage')->name('employee.details');
     Route::get('/departments/dept-list', 'DepartmentListPage')->name('departments.list');
-    Route::get('/activities/activity-list', 'ActivityListPage')->name('activity.list');
+    Route::get('/activities/activity-list', 'ActivityListPage')->name('activities.list');
+    Route::get('/attendances/attendance-list', 'AttendanceListPage')->name('attendances.list');
 });
 
 Route::middleware(['auth', 'verified'])->controller(DepartmentManagementController::class)->group(function(){

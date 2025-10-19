@@ -6,6 +6,8 @@ import { DateTime } from "luxon";
 
 interface ActivityTableProp extends Record<string, any> {
     activities: any;
+    activityStatusOptions: any;
+    activityTypeOptions: any;
 }
 
 // interface Activity{
@@ -19,11 +21,11 @@ interface ActivityTableProp extends Record<string, any> {
 
 
 export default function ActivityTable(){
-    const { activities } = usePage<ActivityTableProp>().props;
+    const { activities, activityStatusOptions, activityTypeOptions } = usePage<ActivityTableProp>().props;
 
     return (
         <div className="p-6">
-            <DataTable columns={columns} data={activities} />
+            <DataTable columns={columns} data={activities} meta={{activityStatusOptions, activityTypeOptions}}/>
         </div>
     );
 }

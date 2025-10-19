@@ -3,7 +3,7 @@
 import * as React from "react"
 import {
   Command,
-  Frame, Home, UsersRound, BarChartHorizontalBig, Footprints,
+  Frame, Home, UsersRound, BarChartHorizontalBig, Footprints, Flag,
   LifeBuoy,
   Send,
   SquareTerminal,
@@ -37,8 +37,13 @@ const data = {
       icon: Home,
     },
     {
-      title: "Activity",
-      url: route("activity.list"),
+      title: "Attendances",
+      url: route("attendances.list"),
+      icon: Flag,
+    },
+    {
+      title: "Activities",
+      url: route("activities.list"),
       icon: Footprints,
     },
     {
