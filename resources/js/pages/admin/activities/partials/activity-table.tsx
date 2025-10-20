@@ -10,16 +10,6 @@ interface ActivityTableProp extends Record<string, any> {
     activityTypeOptions: any;
 }
 
-// interface Activity{
-//     activityName: string;
-//     activityDesc: string;
-//     activityType: string;
-//     activityStatus: string;
-//     ref: string;
-//     dateTime: DateTime;
-// }
-
-
 export default function ActivityTable(){
     const { activities, activityStatusOptions, activityTypeOptions } = usePage<ActivityTableProp>().props;
 

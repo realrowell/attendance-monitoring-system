@@ -49,4 +49,8 @@ class Employee extends Model
     public function departments(){
         return $this->hasOne(Department::class, 'id', 'dept_id');
     }
+
+    public function dependents(){
+        return $this->hasMany(Dependent::class, 'emp_id','id');
+    }
 }

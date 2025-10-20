@@ -24,7 +24,7 @@ class Attendance extends Model
         self::creating(function ($model) {
             $prefix = 'att';
             $model->id = IdGenerator::generate(['table' => 'attendances', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
-            $model->reference = IdGenerator::generate(['table' => 'attendances', 'field' => 'ref', 'length' => 15, 'prefix' => date(format: 'ym').str()->random(8)]);
+            $model->ref = IdGenerator::generate(['table' => 'attendances', 'field' => 'ref', 'length' => 15, 'prefix' => date(format: 'ym').str()->random(8)]);
         });
     }
 

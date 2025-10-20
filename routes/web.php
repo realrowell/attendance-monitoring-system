@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ActivityManagementController;
 use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\AttendeeManagementController;
 use App\Http\Controllers\Admin\DepartmentManagementController;
 use App\Http\Controllers\Admin\DependentManagementController;
 use App\Http\Controllers\Admin\EmployeeManagementController;
@@ -33,6 +34,7 @@ Route::middleware(['auth', 'verified'])->controller(AdminPageController::class)-
     Route::get('/employees/emp-details/{id}', 'EmployeeDetailsPage')->name('employee.details');
     Route::get('/departments/dept-list', 'DepartmentListPage')->name('departments.list');
     Route::get('/activities/activity-list', 'ActivityListPage')->name('activities.list');
+    Route::get('/activities/activity-details/{ref}', 'ActivityDetailsPage')->name('activity.details');
     Route::get('/attendances/attendance-list', 'AttendanceListPage')->name('attendances.list');
 });
 
@@ -48,6 +50,9 @@ Route::middleware(['auth', 'verified'])->controller(DependentManagementControlle
 });
 Route::middleware(['auth', 'verified'])->controller(ActivityManagementController::class)->group(function(){
     Route::post('/activities/create-activity', 'CreateActivity')->name('create.activity');
+});
+Route::middleware(['auth', 'verified'])->controller(AttendeeManagementController::class)->group(function(){
+    Route::post('/activities/create-attendee', 'CreateAttendee')->name('create.attendee');
 });
 
 require __DIR__.'/auth.php';

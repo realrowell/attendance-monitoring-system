@@ -56,6 +56,16 @@ class AdminPageController extends Controller
         return Inertia::render('admin/activities/activity-list', $data);
     }
 
+    public function ActivityDetailsPage($ref){
+        $data = [
+            'activity' => Activity::where('ref', $ref)->first(),
+            'activityStatusOptions' => Activity::activityStatusOptions(),
+            'activityTypeOptions' => Activity::participationTypeOptions(),
+            'partTypeOptions' => Attendance::mopOptions(),
+        ];
+        return Inertia::render('admin/activities/activity-details', $data);
+    }
+
     public function AttendanceListPage(){
         $data = [
             'attendances' => Attendance::get(),

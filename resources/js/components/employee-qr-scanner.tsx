@@ -1,19 +1,47 @@
 import { useState } from "react";
 import QrReader from "react-qr-reader-es6";
+import axios from "axios";
+import { usePage } from "@inertiajs/react";
 
-export default function QrScanner() {
+interface QrCodeScannerProps {
+    onEmployeeFound: (employee: any) => void;
+}
+
+const QrScanner: React.FC<QrCodeScannerProps> = ({ onEmployeeFound }) => {
+
     const [scanResult, setScanResult] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [isScanning, setIsScanning] = useState(true); // Control the scanner's activity
+    const [processing, setProcessing] = useState(false); // Prevent multiple scans while processing
 
-    const handleScan = (data: string | null) => {
-        if (!data) return;
+    const handleScan = async (data: string | null) => {
+        if (!data || processing) return;
+
+        setProcessing(true); // Set processing flag to true
+        setIsScanning(false); // Stop the scanner
 
         try {
             const parsed = JSON.parse(data);
             setScanResult(JSON.stringify(parsed, null, 2));
-            console.log("QR Data:", parsed.id);
-        } catch {
-            setError("Invalid QR content — not JSON");
+            const response = await axios.get(`/api/v1/employee/details/${parsed.id}`);
+            const employeeDetails = response.data.employee;
+            onEmployeeFound(employeeDetails);
+            // console.log("QR Data:", response.data.employee);
+            setError(null);
+        } catch (err) {
+            console.error(err);
+            if (err instanceof SyntaxError) {
+                setError("Invalid QR content — not JSON");
+            } else {
+                setError("Failed to fetch employee details.");
+            }
+        } finally {
+            // Re-enable the scanner after a delay (e.g., 3 seconds)
+            setTimeout(() => {
+                setIsScanning(true);
+                setProcessing(false); // Reset processing flag
+                console.log("Scanning resumed.");
+            }, 3000);
         }
     };
 
@@ -28,10 +56,10 @@ export default function QrScanner() {
 
             <div className="w-[250px] h-[250px] overflow-hidden rounded-xl shadow">
                 <QrReader
-                delay={300}
-                onError={handleError}
-                onScan={handleScan}
-                style={{ width: "100%", height: "100%" }}
+                    delay={10}
+                    onError={handleError}
+                    onScan={handleScan}
+                    style={{ width: "100%", height: "100%" }}
                 />
             </div>
 
@@ -44,3 +72,5 @@ export default function QrScanner() {
         </div>
     );
 }
+
+export default QrScanner;
