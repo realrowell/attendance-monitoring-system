@@ -40,4 +40,11 @@ class Attendance extends Model
             ],
         ];
     }
+
+    public function attEmployees(){
+        return $this->belongsTo(AttEmployee::class, 'id','att_id');
+    }
+    public function attDependents(){
+        return $this->hasMany(AttDependent::class, 'att_id', 'id');
+    }
 }

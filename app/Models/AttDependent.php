@@ -23,4 +23,8 @@ class AttDependent extends Model
             $model->id = IdGenerator::generate(['table' => 'att_dependents', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
         });
     }
+
+    public function dependents(){
+        return $this->hasOne(Dependent::class, 'id', 'depd_id');
+    }
 }

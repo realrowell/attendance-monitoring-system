@@ -63,11 +63,11 @@ const QrScanner: React.FC<QrCodeScannerProps> = ({ onEmployeeFound }) => {
                 />
             </div>
 
-            {scanResult && (
+            {/* {scanResult && (
                 <pre className="bg-gray-800 p-2 rounded text-xs text-left w-full max-w-sm">
                 {scanResult}
                 </pre>
-            )}
+            )} */}
             {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
     );

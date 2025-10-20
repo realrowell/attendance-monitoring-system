@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import ActivityQrCode from "./partials/activity-qr-code";
 import AddAttendeeDialog from "./partials/add-attendees-dialog";
+import AttendeeTable from "./partials/attendee-table";
 
 interface Activity {
     ref: string;
@@ -20,9 +21,10 @@ interface ActivityDetailsProps extends Record<string, any> {
     activityStatusOptions: any;
     activityTypeOptions: any;
     partTypeOptions: any;
+    attendances: any;
 }
-export default function EmployeeDetails(){
-    const { activity, activityStatusOptions, activityTypeOptions, partTypeOptions } = usePage<ActivityDetailsProps>().props;
+export default function ActivityDetails(){
+    const { activity, activityStatusOptions, activityTypeOptions, attendances } = usePage<ActivityDetailsProps>().props;
     // console.log(activity.activity_name);
 
     return (
@@ -108,12 +110,11 @@ export default function EmployeeDetails(){
                             {/* <p>Manage the employee’s dependents below — add or remove as needed.</p> */}
                         </div>
                         <div className="flex flex-col items-end w-full">
-                            {/* <AddDependentDialog depdTypes={dependentTypes} empId={employee.public_id}/> */}
                             <AddAttendeeDialog/>
                         </div>
                     </div>
                     <div className="flex flex-row items-center">
-                        {/* <DependentTable /> */}
+                        <AttendeeTable />
                     </div>
                 </div>
             </div>

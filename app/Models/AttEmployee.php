@@ -23,4 +23,8 @@ class AttEmployee extends Model
             $model->id = IdGenerator::generate(['table' => 'att_employees', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
         });
     }
+
+    public function employees(){
+        return $this->hasOne(Employee::class, 'id', 'emp_id');
+    }
 }

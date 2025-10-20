@@ -57,11 +57,16 @@ class AdminPageController extends Controller
     }
 
     public function ActivityDetailsPage($ref){
+        $activity = Activity::where('ref', $ref)->first();
+
         $data = [
-            'activity' => Activity::where('ref', $ref)->first(),
+            'activity' => $activity,
             'activityStatusOptions' => Activity::activityStatusOptions(),
             'activityTypeOptions' => Activity::participationTypeOptions(),
             'partTypeOptions' => Attendance::mopOptions(),
+            'attendances' => Attendance::where('activity_id', $activity->id)->with(['attEmployees.employees.empDetails','attEmployees.employees.departments','attDependents.dependents'])->get(),
+            'suffixes' => EmpDetail::suffixOptions(),
+            'empClasses' => Employee::empClassOptions(),
         ];
         return Inertia::render('admin/activities/activity-details', $data);
     }
