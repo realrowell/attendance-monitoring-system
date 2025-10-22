@@ -113,7 +113,7 @@ export default function ActivityDetails(){
                             <AddAttendeeDialog/>
                         </div>
                     </div>
-                    <div className="flex flex-row items-center">
+                    <div className="flex flex-row items-center ">
                         <AttendeeTable />
                     </div>
                 </div>
