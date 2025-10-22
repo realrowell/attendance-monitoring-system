@@ -15,7 +15,7 @@ export default function AttendeeTable() {
     // console.log(attendances);
 
     return (
-        <div className="p-6">
+        <div className=" w-full">
             {/* <h2 className="text-lg font-semibold mb-4">Employee List</h2> */}
             <DataTable columns={columns} data={attendances} meta={{ empClasses, suffixes }} />
         </div>
