@@ -69,7 +69,7 @@ function ActionMenu({ attendance }: { attendance: Attendance }) {
             <DropdownMenuItem
                 className="cursor-pointer"
             >
-                {/* <Link href={route('employee.details',{ id: attendance.ref })} className="flex flex-row"><ExternalLink className="h-4 w-4 mr-2" /> View Details</Link> */}
+                <Link href={route('employee.details',{ id: attendance.ref })} className="flex flex-row"><ExternalLink className="h-4 w-4 mr-2" /> View Details</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -89,13 +89,13 @@ export const columns: ColumnDef<Attendance>[] = [
         // accessorKey: "dept_id",
         header: "Ref",
         cell: ({row}) => {
-            console.log(row.original);
             return row.original.ref || "data unavailable";
         }
     },
     {
         // accessorKey: "name",
         header: "Name",
+        enableGlobalFilter: true,
         cell: ({row, table}) => {
             const suffix = row.original.att_employees?.employees?.emp_details?.suffix ?? null;
             const suffixes = (table.options.meta as AttendeeListPageProps | undefined)?.suffixes || {};
@@ -132,6 +132,6 @@ export const columns: ColumnDef<Attendance>[] = [
     {
         id: "actions",
         header: "Actions",
-        cell: ({ row }) => <ActionMenu employee={row.original} />,
+        cell: ({ row }) => <ActionMenu attendance={row.original} />,
     },
 ]

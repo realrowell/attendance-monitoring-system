@@ -1,54 +1,65 @@
 "use client"
 
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-  getSortedRowModel,
-  getFilteredRowModel,
+    ColumnDef,
+    flexRender,
+    getCoreRowModel,
+    useReactTable,
+    getSortedRowModel,
+    getFilteredRowModel,
 } from "@tanstack/react-table"
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
 } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
 
+// Global filter function
+const globalFilterFn = (row: any, columnId: string, filterValue: string) => {
+    const value = row.getValue(columnId)
+    return String(value ?? "")
+        .toLowerCase()
+        .includes(filterValue.toLowerCase())
+}
+
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  meta?: Record<string, any>
+    columns: ColumnDef<TData, TValue>[]
+    data: TData[]
+    meta?: Record<string, any>
 }
 
 export function DataTable<TData, TValue>({ columns, data, meta }: DataTableProps<TData, TValue>) {
     const [filter, setFilter] = useState("")
+    const [globalFilter, setGlobalFilter] = useState("");
     const table = useReactTable({
         data,
         columns,
         state: {
-        globalFilter: filter,
+            globalFilter: filter,
         },
         onGlobalFilterChange: setFilter,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getSortedRowModel: getSortedRowModel(),
+        globalFilterFn,
         meta,
-    })
+    });
+
 
     return (
         <div className="rounded-md border">
             <div className="rounded-md border p-4">
                 <div className="flex justify-between mb-4">
                     <Input
-                    placeholder="Search..."
-                    value={filter ?? ""}
-                    onChange={(e) => setFilter(e.target.value)}
-                    className="w-60"
+                        placeholder="Search..."
+                        value={filter ?? ""}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="w-60"
                     />
                 </div>
                 <Table>
