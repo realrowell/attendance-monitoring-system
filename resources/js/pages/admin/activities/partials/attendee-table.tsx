@@ -15,7 +15,6 @@ interface AttendeeTableProps extends Record<string, any> {
 
 export default function AttendeeTable() {
     const { empClasses, suffixes, attEmployees, partTypeOptions } = usePage<AttendeeTableProps>().props;
-    console.log(Array.isArray(attEmployees), attEmployees)
     // console.log(attendances);
     // const [filter, setFilter] = React.useState("");
 

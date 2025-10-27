@@ -107,15 +107,15 @@ export default function AddAttendeeFormDialog({
                     // </Alert>
                 )} */}
                 <AlertDialog open={infoAlertOpen} onOpenChange={setInfoAlertOpen}>
-                    <AlertDialogContent className="bg-blue-600">
+                    <AlertDialogContent className="border-blue-600">
                         <AlertDialogHeader>
-                            <AlertDialogTitle className="text-white">Attendance is already on record.</AlertDialogTitle>
+                            <AlertDialogTitle className=" ">Attendance is already on record.</AlertDialogTitle>
                             <AlertDialogDescription className="text-white/80">
                                 {infoAlertMessage}
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogAction onClick={() => [setErrorAlertOpen(false),onOpenChange(false)]}>
+                            <AlertDialogAction className="bg-blue-600 text-white hover:bg-blue-800" onClick={() => [setErrorAlertOpen(false),onOpenChange(false)]}>
                                 OK
                             </AlertDialogAction>
                         </AlertDialogFooter>

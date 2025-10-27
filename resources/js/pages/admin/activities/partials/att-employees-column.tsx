@@ -142,7 +142,6 @@ export const columns: ColumnDef<attEmployees>[] = [
         header: "Mode of Participation",
         cell: ({ row, table }) => {
             const partTypes = (table.options.meta as EmployeesListPageProps | undefined)?.partTypeOptions || {};
-            console.log(partTypes);
             return partTypes[row.original?.attendances?.mop]?.label || row.original?.attendances?.mop || "—";
         },
     },

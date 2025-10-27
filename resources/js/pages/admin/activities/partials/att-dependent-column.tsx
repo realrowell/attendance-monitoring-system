@@ -27,59 +27,59 @@ interface DependentsListPageProps{
     partTypeOptions: any;
 }
 
-// function ActionMenu({ attendance }: { attendance: Attendance }) {
-//     const [menuOpen, setMenuOpen] = useState(false);
-//     const [open, setOpen] = useState(false);
+function ActionMenu({ attendance }: { attendance: attDependents }) {
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
-//     const handleSubmit = async (e: React.FormEvent) => {
-//         e.preventDefault()
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault()
 
-//         // router.post(
-//         //     route("update.department"), // your Laravel route name
-//         //     {
-//         //         deptId: department.public_id, // send which department to update
-//         //         dept_name: deptName, // send updated name
-//         //     },
-//         //     {
-//         //         onSuccess: () => {
-//         //             console.log("Department updated successfully!")
-//         //             setOpen(false)
-//         //         },
-//         //             onError: (errors) => {
-//         //             console.error("Update failed:", errors)
-//         //         },
-//         //     }
-//         // )
-//     }
+        // router.post(
+        //     route("update.department"), // your Laravel route name
+        //     {
+        //         deptId: department.public_id, // send which department to update
+        //         dept_name: deptName, // send updated name
+        //     },
+        //     {
+        //         onSuccess: () => {
+        //             console.log("Department updated successfully!")
+        //             setOpen(false)
+        //         },
+        //             onError: (errors) => {
+        //             console.error("Update failed:", errors)
+        //         },
+        //     }
+        // )
+    }
 
-//     return (
-//         <>
-//         {/* Dropdown menu */}
-//         <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-//             <DropdownMenuTrigger asChild>
-//             <Button variant="ghost" className="h-8 w-8 p-0">
-//                 <MoreHorizontal className="h-4 w-4" />
-//             </Button>
-//             </DropdownMenuTrigger>
-//             <DropdownMenuContent align="end">
-//             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-//             <DropdownMenuItem
-//                 className="cursor-pointer"
-//             >
-//                 <Link href={route('employee.details',{ id: attendance.ref })} className="flex flex-row"><ExternalLink className="h-4 w-4 mr-2" /> View Details</Link>
-//             </DropdownMenuItem>
-//             <DropdownMenuSeparator />
-//             <DropdownMenuItem
-//                 onClick={() => console.log("Delete", attendance.ref)}
-//                 className="cursor-pointer text-red-600"
-//             >
-//                 <Trash2 className="h-4 w-4 mr-2" /> Delete
-//             </DropdownMenuItem>
-//             </DropdownMenuContent>
-//         </DropdownMenu>
-//         </>
-//     )
-// }
+    return (
+        <>
+        {/* Dropdown menu */}
+        <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+            <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+                <MoreHorizontal className="h-4 w-4" />
+            </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuItem
+                className="cursor-pointer"
+            >
+                <Edit className="h-4 w-4 mr-2" /> Edit
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+                onClick={() => console.log("Delete", attendance.ref)}
+                className="cursor-pointer text-red-600"
+            >
+                <Trash2 className="h-4 w-4 mr-2" /> Delete
+            </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
+        </>
+    )
+}
 
 export const columns: ColumnDef<attDependents>[] = [
     {
@@ -109,13 +109,12 @@ export const columns: ColumnDef<attDependents>[] = [
         header: "Mode of Participation",
         cell: ({ row, table }) => {
             const partTypes = (table.options.meta as DependentsListPageProps | undefined)?.partTypeOptions || {};
-            console.log(partTypes);
             return partTypes[row.original?.attendances?.mop]?.label || row.original?.attendances?.mop || "—";
         },
     },
-    // {
-    //     id: "actions",
-    //     header: "Actions",
-    //     cell: ({ row }) => <ActionMenu attendance={row.original} />,
-    // },
+    {
+        id: "actions",
+        header: "Actions",
+        cell: ({ row }) => <ActionMenu attendance={row.original} />,
+    },
 ]
