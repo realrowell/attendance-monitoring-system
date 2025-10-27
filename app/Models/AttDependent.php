@@ -27,4 +27,7 @@ class AttDependent extends Model
     public function dependents(){
         return $this->hasOne(Dependent::class, 'id', 'depd_id');
     }
+    public function attendances(){
+        return $this->hasOne(Attendance::class, 'id','att_id');
+    }
 }

@@ -13,7 +13,7 @@ import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Link, router } from '@inertiajs/react';
 
-export type Attendance = {
+export type attEmployees = {
     ref: string;
     activities: any;
     date_time: any;
@@ -22,15 +22,17 @@ export type Attendance = {
     employees: any;
     empDetails: any;
     suffix: string;
+    attendances: any;
 }
 
-interface AttendeeListPageProps{
+interface EmployeesListPageProps{
     empClasses: Record<string, string>;
     suffixes: Record<string, string>;
     activities: any;
+    partTypeOptions: any;
 }
 
-function ActionMenu({ attendance }: { attendance: Attendance }) {
+function ActionMenu({ att_employees }: { att_employees: attEmployees }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [open, setOpen] = useState(false);
 
@@ -69,11 +71,11 @@ function ActionMenu({ attendance }: { attendance: Attendance }) {
             <DropdownMenuItem
                 className="cursor-pointer"
             >
-                <Link href={route('employee.details',{ id: attendance.ref })} className="flex flex-row"><ExternalLink className="h-4 w-4 mr-2" /> View Details</Link>
+                <Link href={route('employee.details',{ id: att_employees.attendances.ref })} className="flex flex-row"><ExternalLink className="h-4 w-4 mr-2" /> View Details</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-                onClick={() => console.log("Delete", attendance.ref)}
+                onClick={() => console.log("Delete", att_employees.attendances.ref)}
                 className="cursor-pointer text-red-600"
             >
                 <Trash2 className="h-4 w-4 mr-2" /> Delete
@@ -84,23 +86,23 @@ function ActionMenu({ attendance }: { attendance: Attendance }) {
     )
 }
 
-export const columns: ColumnDef<Attendance>[] = [
+export const columns: ColumnDef<attEmployees>[] = [
     {
-        // accessorKey: "dept_id",
+        accessorKey: "ref",
         header: "Attendance Ref",
         cell: ({row}) => {
-            return row.original.ref || "data unavailable";
+            return row.original.attendances.ref || "data unavailable";
         }
     },
     {
-        // accessorKey: "name",
+        accessorKey: "name",
         header: "Name",
         enableGlobalFilter: true,
         cell: ({row, table}) => {
-            const suffix = row.original.att_employees?.employees?.emp_details?.suffix ?? null;
-            const suffixes = (table.options.meta as AttendeeListPageProps | undefined)?.suffixes || {};
+            const suffix = row.original?.employees?.emp_details?.suffix ?? null;
+            const suffixes = (table.options.meta as EmployeesListPageProps | undefined)?.suffixes || {};
 
-            const empDetail = row.original.att_employees.employees.emp_details;
+            const empDetail = row.original.employees.emp_details;
             const middleInitial = empDetail?.middle_name
                 ? `${empDetail?.middle_name.charAt(0)}.` // Example: "A."
                 : "";
@@ -114,24 +116,39 @@ export const columns: ColumnDef<Attendance>[] = [
         }
     },
     {
-        // accessorKey: "emp_class",
+        accessorKey: "departments.dept_name",
         header: "Department",
         cell: ({ row, table }) => {
-            return row.original.att_employees?.employees?.departments?.dept_name ?? null;
+            return row.original?.employees?.departments?.dept_name ?? null;
         },
     },
     {
-        // accessorKey: "emp_class",
+        accessorKey: "employees.emp_class",
         header: "Classification",
         cell: ({ row, table }) => {
-            const empClass = row.original.att_employees?.employees?.emp_class ?? null;
-            const empClasses = (table.options.meta as AttendeeListPageProps | undefined)?.empClasses || {};
+            const empClass = row.original?.employees?.emp_class ?? null;
+            const empClasses = (table.options.meta as EmployeesListPageProps | undefined)?.empClasses || {};
             return empClasses[empClass] || empClass;
+        },
+    },
+    {
+        accessorKey: "date_time",
+        header: "Timestamp",
+        cell: ({ row }) => {
+            return row.original.attendances.date_time;
+        },
+    },
+    {
+        header: "Mode of Participation",
+        cell: ({ row, table }) => {
+            const partTypes = (table.options.meta as EmployeesListPageProps | undefined)?.partTypeOptions || {};
+            console.log(partTypes);
+            return partTypes[row.original?.attendances?.mop]?.label || row.original?.attendances?.mop || "—";
         },
     },
     {
         id: "actions",
         header: "Actions",
-        cell: ({ row }) => <ActionMenu attendance={row.original} />,
+        cell: ({ row }) => <ActionMenu att_employees={row.original} />,
     },
 ]

@@ -37,7 +37,7 @@ export default function AddAttendeeDialog(){
 
     // console.log(attendance);
     const handleFormSubmit = async (data: any) => {
-        console.log(data);
+        // console.log(data);
         // router.post(route('create.activity'), data, {
         //     onSuccess: () => {
         //         console.log('Attendance added successfully!');

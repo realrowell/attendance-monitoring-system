@@ -64,9 +64,19 @@ class AdminPageController extends Controller
             'activityStatusOptions' => Activity::activityStatusOptions(),
             'activityTypeOptions' => Activity::participationTypeOptions(),
             'partTypeOptions' => Attendance::mopOptions(),
-            'attendances' => Attendance::where('activity_id', $activity->id)->with(['attEmployees.employees.empDetails','attEmployees.employees.departments','attDependents.dependents'])->get(),
+            'attendances' => Attendance::where('activity_id', $activity->id)
+                                        ->with([
+                                                'attEmployees.employees.empDetails',
+                                                'attEmployees.employees.departments',
+                                                'attDependents.dependents',
+                                            ])
+                                        ->get(),
             'suffixes' => EmpDetail::suffixOptions(),
             'empClasses' => Employee::empClassOptions(),
+            'attDependents' => AttDependent::whereHas('attendances', fn($q) => $q->where('activity_id', $activity->id))
+                                            ->with(['attendances','dependents'])->get(),
+            'attEmployees' => AttEmployee::whereHas('attendances', fn($q) => $q->where('activity_id', $activity->id))
+                                            ->with(['attendances','employees.empDetails','employees.departments'])->get(),
         ];
         return Inertia::render('admin/activities/activity-details', $data);
     }

@@ -27,4 +27,7 @@ class AttEmployee extends Model
     public function employees(){
         return $this->hasOne(Employee::class, 'id', 'emp_id');
     }
+    public function attendances(){
+        return $this->hasOne(Attendance::class, 'id','att_id');
+    }
 }

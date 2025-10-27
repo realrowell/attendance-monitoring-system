@@ -6,6 +6,7 @@ import {
     AlertDialogDescription,
     AlertDialogFooter,
     AlertDialogAction,
+    AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
 import {
     Dialog,
@@ -13,15 +14,13 @@ import {
     DialogDescription,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog";
-import { useState } from "react";
 import { DateTime } from "luxon";
-import { Button } from "@/components/ui/button";
-import { usePage } from "@inertiajs/react";
 import { router } from '@inertiajs/react';
-import EmployeeQrScanner from '@/components/employee-qr-scanner';
 import AddAttendeeForm from './add-attendee-form';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import { TriangleAlert } from "lucide-react";
+import { useState } from "react";
 
 // const AddActivityFormTyped: any = AddActivityForm;
 
@@ -52,6 +51,12 @@ export default function AddAttendeeFormDialog({
         activity,
     }: AddAttendeeFormDialogProp){
 
+    const [error, setError] = useState<string | null>(null);
+    const [successAlertOpen, setSuccessAlertOpen] = useState(false);
+    const [errorAlertOpen, setErrorAlertOpen] = useState(false);
+    const [infoAlertOpen, setInfoAlertOpen] = useState(false);
+    const [infoAlertMessage, setInfoAlertMessage] = useState<string | null>(null);
+
     // console.log(activity);
     const handleFormSubmit = async (data: any) => {
         const finalData = {
@@ -63,11 +68,20 @@ export default function AddAttendeeFormDialog({
         router.post(route('create.attendee'), finalData, {
             onSuccess: () => {
                 console.log('Attendance added successfully!');
-                onOpenChange(false);
-                // setAlertOpen(true);
+                setError(null); // clear any previous errors
+                setSuccessAlertOpen(true);
             },
             onError: (errors) => {
-                console.error(errors);
+                if (errors?.type === "info") {
+                    setInfoAlertOpen(true)
+                    setInfoAlertMessage(errors.message)
+                }
+                else{
+                    console.error(errors);
+                    const firstError = Object.values(errors)[0] || 'An unexpected error occurred while submitting the form.';
+                    setError(String(firstError));
+                    setErrorAlertOpen(true);
+                }
             },
         });
     }
@@ -77,28 +91,68 @@ export default function AddAttendeeFormDialog({
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent>
                 <DialogHeader>
-                <DialogTitle>Add Attendee Form</DialogTitle>
-                <DialogDescription>
-                    Fill out the attendee details below.
-                </DialogDescription>
+                    <DialogTitle>Add Attendee Form</DialogTitle>
+                    <DialogDescription>
+                        Fill out the attendee details below.
+                    </DialogDescription>
                 </DialogHeader>
+
                 <AddAttendeeForm onSubmit={handleFormSubmit} employee={employee}/>
-                {/* <AttendeeForm onSubmit={handleFormSubmit}/> */}
-                {/* <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
+
+                {/* {error && (
+                    // <Alert variant="destructive" className="mt-4">
+                    // <TriangleAlert className="h-4 w-4" />
+                    // <AlertTitle>Error Encountered!</AlertTitle>
+                    // <AlertDescription>{error}</AlertDescription>
+                    // </Alert>
+                )} */}
+                <AlertDialog open={infoAlertOpen} onOpenChange={setInfoAlertOpen}>
+                    <AlertDialogContent className="bg-blue-600">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-white">Attendance is already on record.</AlertDialogTitle>
+                            <AlertDialogDescription className="text-white/80">
+                                {infoAlertMessage}
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogAction onClick={() => [setErrorAlertOpen(false),onOpenChange(false)]}>
+                                OK
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+
+                <AlertDialog open={errorAlertOpen} onOpenChange={setErrorAlertOpen}>
+                    <AlertDialogContent className="bg-destructive">
+                        <AlertDialogHeader>
+                            <AlertDialogTitle className="text-white">Error Encountered!</AlertDialogTitle>
+                            <AlertDialogDescription className="text-white/80">
+                                {error}
+                            </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                            <AlertDialogAction onClick={() => [setErrorAlertOpen(false),onOpenChange(false)]}>
+                                OK
+                            </AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+
+                <AlertDialog open={successAlertOpen} onOpenChange={setSuccessAlertOpen}>
                     <AlertDialogContent>
                     <AlertDialogHeader>
                         <AlertDialogTitle>Success!</AlertDialogTitle>
                         <AlertDialogDescription>
-                        Employee was added successfully.
+                            Attendance successully recorded!
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogAction onClick={() => [setAlertOpen(false),setFormOpen(false)]}>
+                        <AlertDialogAction onClick={() => [setSuccessAlertOpen(false),onOpenChange(false)]}>
                             OK
                         </AlertDialogAction>
                     </AlertDialogFooter>
                     </AlertDialogContent>
-                </AlertDialog> */}
+                </AlertDialog>
             </DialogContent>
         </Dialog>
         </>

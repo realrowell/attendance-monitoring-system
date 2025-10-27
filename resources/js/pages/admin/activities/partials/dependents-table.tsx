@@ -1,21 +1,16 @@
 import { DataTable } from "@/components/data-table"
-import { columns, attEmployees } from "./att-employees-column"
+import { columns, attDependents } from "./att-dependent-column"
 import { usePage } from "@inertiajs/react";
 import React from "react";
 import { Input } from "@/components/ui/input";
 
-interface AttendeeTableProps extends Record<string, any> {
-    // employees: any[];
-    empClasses: Record<string, string>;
-    suffixes: Record<string, string>
-    departments: any;
-    attEmployees: any;
+interface DependentsTableProps extends Record<string, any> {
+    attDependents: any;
     partTypeOptions: any;
 }
 
-export default function AttendeeTable() {
-    const { empClasses, suffixes, attEmployees, partTypeOptions } = usePage<AttendeeTableProps>().props;
-    console.log(Array.isArray(attEmployees), attEmployees)
+export default function DependentsTable() {
+    const { attDependents, partTypeOptions, suffixes } = usePage<DependentsTableProps>().props;
     // console.log(attendances);
     // const [filter, setFilter] = React.useState("");
 
@@ -38,7 +33,7 @@ export default function AttendeeTable() {
                 onChange={(e) => setFilter(e.target.value)}
                 className="w-60"
             /> */}
-            <DataTable columns={columns} data={attEmployees} meta={{ empClasses, suffixes, partTypeOptions }} />
+            <DataTable columns={columns} data={attDependents} meta={{ partTypeOptions }}/>
         </div>
     )
 }

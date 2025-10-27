@@ -6,6 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import ActivityQrCode from "./partials/activity-qr-code";
 import AddAttendeeDialog from "./partials/add-attendees-dialog";
 import AttendeeTable from "./partials/attendee-table";
+import DependentsTable from "./partials/dependents-table";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface Activity {
     ref: string;
@@ -114,7 +116,18 @@ export default function ActivityDetails(){
                         </div>
                     </div>
                     <div className="flex flex-row items-center ">
-                        <AttendeeTable />
+                        <Tabs defaultValue="employee-tbl" className="w-full">
+                            <TabsList>
+                                <TabsTrigger value="employee-tbl">Employees</TabsTrigger>
+                                <TabsTrigger value="dependent-tbl">Dependents</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="employee-tbl">
+                                <AttendeeTable/>
+                            </TabsContent>
+                            <TabsContent value="dependent-tbl">
+                                <DependentsTable />
+                            </TabsContent>
+                        </Tabs>
                     </div>
                 </div>
             </div>
