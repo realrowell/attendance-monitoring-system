@@ -35,7 +35,6 @@ export default function AddAttendeeDialog(){
     const [qrScanDialog, setQrScanDialog] = useState(false);
     const [attendeeFormDialog, setAttendeeFormDialog] = useState(false);
 
-    // console.log(attendance);
     const handleFormSubmit = async (data: any) => {
         // console.log(data);
         // router.post(route('create.activity'), data, {
@@ -50,7 +49,6 @@ export default function AddAttendeeDialog(){
         // });
     }
     const handleEmployeeData = (employeeData: any) => {
-        // This function is called by the child
         setEmployee(employeeData);
         setQrScanDialog(false);
         setAttendeeFormDialog(true);
@@ -60,7 +58,7 @@ export default function AddAttendeeDialog(){
         <>
         <Dialog open={qrScanDialog} onOpenChange={setQrScanDialog}>
             <DialogTrigger asChild>
-                <Button>Add Attendee</Button>
+                <Button>QR Scanner</Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
