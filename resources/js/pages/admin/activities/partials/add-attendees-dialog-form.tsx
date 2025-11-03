@@ -139,7 +139,7 @@ export default function AddAttendeeFormDialog({
                 </AlertDialog>
 
                 <AlertDialog open={successAlertOpen} onOpenChange={setSuccessAlertOpen}>
-                    <AlertDialogContent>
+                    <AlertDialogContent className="border-green-600">
                     <AlertDialogHeader>
                         <AlertDialogTitle>Success!</AlertDialogTitle>
                         <AlertDialogDescription>
@@ -147,7 +147,7 @@ export default function AddAttendeeFormDialog({
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogAction onClick={() => [setSuccessAlertOpen(false),onOpenChange(false)]}>
+                        <AlertDialogAction className="bg-green-600 text-white hover:bg-green-700" onClick={() => [setSuccessAlertOpen(false),onOpenChange(false)]}>
                             OK
                         </AlertDialogAction>
                     </AlertDialogFooter>

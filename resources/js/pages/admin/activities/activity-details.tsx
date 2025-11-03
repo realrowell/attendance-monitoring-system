@@ -8,6 +8,7 @@ import AddAttendeeDialog from "./partials/add-attendees-dialog";
 import AttendeeTable from "./partials/attendee-table";
 import DependentsTable from "./partials/dependents-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import AddAttendeeManualDialog from "./partials/add-attendee-manual-dialog";
 
 interface Activity {
     ref: string;
@@ -111,8 +112,9 @@ export default function ActivityDetails(){
                             <h2 className="text-xl ">Attendees</h2>
                             {/* <p>Manage the employee’s dependents below — add or remove as needed.</p> */}
                         </div>
-                        <div className="flex flex-col items-end w-full">
+                        <div className="flex flex-row justify-end gap-3 w-full">
                             <AddAttendeeDialog/>
+                            <AddAttendeeManualDialog/>
                         </div>
                     </div>
                     <div className="flex flex-row items-center ">
