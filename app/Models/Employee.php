@@ -43,7 +43,7 @@ class Employee extends Model
     }
 
     public function empDetails(){
-        return $this->hasOne(EmpDetail::class, 'id', 'emp_details_id');
+        return $this->belongsTo(EmpDetail::class, 'emp_details_id', 'id');
     }
 
     public function departments(){

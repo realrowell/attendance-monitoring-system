@@ -66,7 +66,7 @@ export default function AddAttendanceDialog(){
                     Fill out the attendance details below.
                 </DialogDescription>
                 </DialogHeader>
-                    <EmployeeQrScanner/>
+                    {/* <EmployeeQrScanner/> */}
                 {/* <AddActivityFormTyped
                     onSubmit={handleFormSubmit}
                     activityStatusOptions={activityStatusOptions}

@@ -107,15 +107,15 @@ export default function AddAttendeeFormDialog({
                     // </Alert>
                 )} */}
                 <AlertDialog open={infoAlertOpen} onOpenChange={setInfoAlertOpen}>
-                    <AlertDialogContent className="bg-blue-600">
+                    <AlertDialogContent className="border-blue-600">
                         <AlertDialogHeader>
-                            <AlertDialogTitle className="text-white">Attendance is already on record.</AlertDialogTitle>
+                            <AlertDialogTitle className=" ">Attendance is already on record.</AlertDialogTitle>
                             <AlertDialogDescription className="text-white/80">
                                 {infoAlertMessage}
                             </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                            <AlertDialogAction onClick={() => [setErrorAlertOpen(false),onOpenChange(false)]}>
+                            <AlertDialogAction className="bg-blue-600 text-white hover:bg-blue-800" onClick={() => [setErrorAlertOpen(false),onOpenChange(false)]}>
                                 OK
                             </AlertDialogAction>
                         </AlertDialogFooter>
@@ -139,7 +139,7 @@ export default function AddAttendeeFormDialog({
                 </AlertDialog>
 
                 <AlertDialog open={successAlertOpen} onOpenChange={setSuccessAlertOpen}>
-                    <AlertDialogContent>
+                    <AlertDialogContent className="border-green-600">
                     <AlertDialogHeader>
                         <AlertDialogTitle>Success!</AlertDialogTitle>
                         <AlertDialogDescription>
@@ -147,7 +147,7 @@ export default function AddAttendeeFormDialog({
                         </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                        <AlertDialogAction onClick={() => [setSuccessAlertOpen(false),onOpenChange(false)]}>
+                        <AlertDialogAction className="bg-green-600 text-white hover:bg-green-700" onClick={() => [setSuccessAlertOpen(false),onOpenChange(false)]}>
                             OK
                         </AlertDialogAction>
                     </AlertDialogFooter>
