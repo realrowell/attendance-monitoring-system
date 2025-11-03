@@ -80,10 +80,10 @@ const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
 
     // ✅ Construct the full name
     const fullName = [
-        empDetail.first_name,
+        empDetail?.first_name ?? "",
         middleInitial,
-        empDetail.last_name,
-        empDetail.suffix
+        empDetail?.last_name ?? "",
+        empDetail?.suffix ?? ""
     ].filter(Boolean).join(" ");
 
 

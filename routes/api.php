@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AttendanceApiController;
 use App\Http\Controllers\API\EmployeeApiController;
+use App\Http\Controllers\API\GetEmployeeListByNameApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,9 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('v1')->group(function () {
     Route::apiResource('/employee/details', EmployeeApiController::class);
+});
+Route::prefix('v1')->controller(GetEmployeeListByNameApiController::class)->group(function () {
+    Route::get('/employee/getByName/{name}', 'index');
 });
 
 Route::prefix('v1')->group(function () {
