@@ -73,7 +73,7 @@ export default function AddAttendeeManualDialog(){
     };
 
     const handleManualSelect = async (empId: number) => {
-        console.log("Selected Employee ID:", empId);
+        // console.log("Selected Employee ID:", empId);
         try {
             // const response = await axios.get(`/api/v1/employee/details/${empId}`);
             handleEmployeeData(empId); // ✅ reuse existing logic
@@ -105,19 +105,22 @@ export default function AddAttendeeManualDialog(){
                     </Input>
                     <Button type='submit'>{isSubmitting ? "Searching..." : "Search"}</Button>
                 </form>
-                {employeeData && employeeData.map((emp: any) => (
-                    <Card
-                        key={emp.id}
-                        className="cursor-pointer hover:bg-gray-100 transition"
-                        onClick={() => handleManualSelect(emp)}
-                    >
-                        <CardHeader>
-                        <CardTitle className="text-base">
-                            {emp.emp_details.first_name} {emp.emp_details.last_name}
-                        </CardTitle>
-                        </CardHeader>
-                    </Card>
-                ))}
+                <div className="flex flex-col gap-3 overflow-y-auto max-h-[70vh]" >
+                    {employeeData && employeeData.map((emp: any) => (
+                        <Card
+                            key={emp.id}
+                            className="cursor-pointer hover:bg-gray-900 transition"
+                            onClick={() => handleManualSelect(emp)}
+                        >
+                            <CardHeader>
+                                <CardTitle className="text-base">
+                                    {emp.emp_details.first_name} {emp.emp_details.last_name}
+                                </CardTitle>
+                                <CardDescription>{emp.departments.dept_name}</CardDescription>
+                            </CardHeader>
+                        </Card>
+                    ))}
+                </div>
             </DialogContent>
             {selectedEmployee && (
                 <AddAttendeeFormDialog
