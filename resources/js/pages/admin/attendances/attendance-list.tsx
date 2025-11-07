@@ -2,21 +2,36 @@ import AuthenticatedLayout from "@/layouts/authenticated-layout";
 import { Head, usePage } from "@inertiajs/react";
 import { DateTime } from "luxon";
 import AddAttendanceDialog from "./partials/add-attendance-dialog";
+import ActivityBar from "./partials/activities-bar";
+import ActivityDetails from "./partials/activity-details";
+import { useState } from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+// import AddAttendeeDialog from "./partials/add-attendees-dialog";
+import AttendeeTable from "./partials/attendee-table";
+import DependentsTable from "./partials/dependents-table";
 
-// interface Attendances {
-//     ref: string;
-//     activities: any;
-//     date_time: DateTime;
-//     mop: any;
-// }
+interface Activity{
+    ref: string;
+    activity_name: string;
+    activity_desc: string;
+    date_time: string;
+    activity_status: string;
+    activity_type: string;
+}
 
-// interface AttendanceListPageProps extends Record<string, any> {
-//     attendances: Attendances[];
-//     partTypeOptions: any;
-// }
+interface AttendanceListPageProps extends Record<string, any> {
+    activities: any;
+    partTypeOptions: any;
+}
 
 export default function AttendanceList(){
-    // const { attendances, partTypeOptions } = usePage<AttendanceListPageProps>().props;
+    const { activities } = usePage<AttendanceListPageProps>().props;
+    const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+
+    const handleActivitySelect = (selected_activity: Activity) => {
+        console.log("Selected Activity:", selected_activity);
+        setSelectedActivity(selected_activity);
+    };
 
     return (
         <AuthenticatedLayout
@@ -25,15 +40,27 @@ export default function AttendanceList(){
             <Head title="Attendances" />
 
             <div className="flex flex-1 flex-col gap-4 h-full">
-                <div className="flex-1 rounded-xl bg-muted/50 h-full">
-                    <div className="flex flex-row items-center justify-between p-6">
-                        <div className="flex flex-col text-start items-start gap-1">
-                            <h2 className="text-2xl ">Attendance List</h2>
-                            <p>View the list of attendances here.</p>
-                        </div>
-                        <AddAttendanceDialog/>
+                <div className="flex-1 rounded-xl bg-muted/50 h-full p-6">
+                    <div className=" ">
+                        <ActivityBar activities={activities} onSelect={handleActivitySelect}/>
                     </div>
-                    {/* <ActivityTable /> */}
+                    <div className="flex flex-row w-full">
+                        <ActivityDetails activity={selectedActivity}/>
+                    </div>
+                    {selectedActivity && (
+                        <Tabs defaultValue="employee-tbl" className="w-full">
+                            <TabsList>
+                                <TabsTrigger value="employee-tbl">Employees</TabsTrigger>
+                                <TabsTrigger value="dependent-tbl">Dependents</TabsTrigger>
+                            </TabsList>
+                            <TabsContent value="employee-tbl">
+                                <AttendeeTable/>
+                            </TabsContent>
+                            <TabsContent value="dependent-tbl">
+                                <DependentsTable />
+                            </TabsContent>
+                        </Tabs>
+                    )}
                 </div>
             </div>
         </AuthenticatedLayout>
