@@ -14,6 +14,7 @@ class Attendance extends Model
         'activity_id',
         'date_time',
         'mop',
+        'is_raffle'
     ];
 
     public $incrementing = false;
@@ -23,12 +24,13 @@ class Attendance extends Model
         parent::boot();
         self::creating(function ($model) {
             $prefix = 'att';
-            $model->id = IdGenerator::generate(['table' => 'attendances', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
-            $model->ref = IdGenerator::generate(['table' => 'attendances', 'field' => 'ref', 'length' => 15, 'prefix' => date(format: 'ym').str()->random(8)]);
+            $model->id = IdGenerator::generate(['table' => 'attendances', 'length' => 20, 'prefix' => $prefix . str()->random(10)]);
+            $model->ref = IdGenerator::generate(['table' => 'attendances', 'field' => 'ref', 'length' => 15, 'prefix' => date(format: 'ym') . str()->random(8)]);
         });
     }
 
-    public static function mopOptions(){
+    public static function mopOptions()
+    {
         return [
             self::TYPE_ONSITE => [
                 'label' => 'On Site',
@@ -41,10 +43,12 @@ class Attendance extends Model
         ];
     }
 
-    public function attEmployees(){
-        return $this->belongsTo(AttEmployee::class, 'id','att_id');
+    public function attEmployees()
+    {
+        return $this->belongsTo(AttEmployee::class, 'id', 'att_id');
     }
-    public function attDependents(){
+    public function attDependents()
+    {
         return $this->hasMany(AttDependent::class, 'att_id', 'id');
     }
 }

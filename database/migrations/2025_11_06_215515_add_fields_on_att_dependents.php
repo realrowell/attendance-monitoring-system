@@ -23,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('att_dependents', function (Blueprint $table) {
+            $table->dropColumn(['full_name', 'relation']);
+        });
     }
 };

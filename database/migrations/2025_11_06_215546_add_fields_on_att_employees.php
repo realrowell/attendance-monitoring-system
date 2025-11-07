@@ -24,6 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::table('att_employees', function (Blueprint $table) {
+            $table->dropColumn(['full_name', 'emp_class', 'department']);
+        });
     }
 };

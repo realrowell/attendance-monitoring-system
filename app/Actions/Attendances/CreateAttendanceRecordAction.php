@@ -25,7 +25,8 @@ class CreateAttendanceRecordAction
         //
     }
 
-    public function execute(){
+    public function execute()
+    {
         $validated_data = $this->data->validate([
             'activity_id' => 'required|string|exists:activities,ref',
             'emp_id' => 'required|string|exists:employees,public_id',
@@ -80,11 +81,13 @@ class CreateAttendanceRecordAction
                         'att_id' => $attendance->id,
                         'depd_id' => $dependent->id,
                         'is_present' => $dep['depd_is_present'],
+                        'full_name' => $dependent->full_name,
+                        'relation' => $dependent->depd_type,
                     ]);
                 }
             }
 
-            if($validated_data['emp_is_present'] == true || $validated_data['emp_is_present'] != null){
+            if ($validated_data['emp_is_present'] == true || $validated_data['emp_is_present'] != null) {
                 // ✅ Check if employee already has an attendance record
                 $existingEmp = AttEmployee::where('emp_id', $employee->id)
                     ->whereHas('attendances', fn($q) => $q->where('activity_id', $activity->id))
@@ -98,11 +101,15 @@ class CreateAttendanceRecordAction
                     ]);
                 }
 
+                $empFullName = $employee->empDetails->first_name . ' ' . $employee->empDetails->middle_name . ' ' . $employee->empDetails->last_name;
                 // 🧩 2. Create attendance employee record
                 $att_employee = AttEmployee::create([
                     'att_id' => $attendance->id,
                     'emp_id' => $employee->id,
                     'is_present' => $validated_data['emp_is_present'] ?? false,
+                    'full_name' => $empFullName,
+                    'emp_class' => $employee->emp_class,
+                    'department' => $employee->departments->dept_name,
                 ]);
             }
 
@@ -113,17 +120,15 @@ class CreateAttendanceRecordAction
 
                 throw ValidationException::withMessages([
                     'type' => 'info',
-                    'message' => $StrDependents.' already has an attendance record.',
+                    'message' => $StrDependents . ' already has an attendance record.',
                 ]);
             }
 
             return $attendance;
-
         } catch (ValidationException $e) {
             // Rollback and rethrow validation errors
             DB::rollBack();
             throw $e;
-
         } catch (Exception $e) {
             // Rollback and throw a user-friendly validation-style error
             DB::rollBack();

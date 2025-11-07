@@ -11,6 +11,9 @@ class AttEmployee extends Model
         'att_id',
         'emp_id',
         'is_present',
+        'full_name',
+        'emp_class',
+        'department'
     ];
 
     public $incrementing = false;
@@ -20,14 +23,16 @@ class AttEmployee extends Model
         parent::boot();
         self::creating(function ($model) {
             $prefix = 'atte';
-            $model->id = IdGenerator::generate(['table' => 'att_employees', 'length' => 20, 'prefix' =>$prefix.str()->random(10)]);
+            $model->id = IdGenerator::generate(['table' => 'att_employees', 'length' => 20, 'prefix' => $prefix . str()->random(10)]);
         });
     }
 
-    public function employees(){
+    public function employees()
+    {
         return $this->hasOne(Employee::class, 'id', 'emp_id');
     }
-    public function attendances(){
-        return $this->hasOne(Attendance::class, 'id','att_id');
+    public function attendances()
+    {
+        return $this->hasOne(Attendance::class, 'id', 'att_id');
     }
 }
