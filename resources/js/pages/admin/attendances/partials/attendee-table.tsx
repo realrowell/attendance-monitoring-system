@@ -13,12 +13,12 @@ interface AttendeeTableProps extends Record<string, any> {
     partTypeOptions: any;
 }
 
-export default function AttendeeTable() {
+export default function AttendeeTable({ attendances }: { attendances: any | null }) {
     const { empClasses, suffixes, attEmployees, partTypeOptions } = usePage<AttendeeTableProps>().props;
 
     return (
         <div className="overflow-x-auto max-w-[80vw]">
-            {/* <DataTable columns={columns} data={attEmployees} meta={{ empClasses, suffixes, partTypeOptions }} /> */}
+            <DataTable columns={columns} data={attEmployees} meta={{ empClasses, suffixes, partTypeOptions }} />
         </div>
     )
 }

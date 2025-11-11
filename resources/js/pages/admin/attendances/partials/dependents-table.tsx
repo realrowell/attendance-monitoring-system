@@ -14,7 +14,7 @@ export default function DependentsTable() {
 
     return (
         <div className="overflow-x-auto max-w-[80vw]">
-            {/* <DataTable columns={columns} data={attDependents} meta={{ partTypeOptions }}/> */}
+            <DataTable columns={columns} data={attDependents} meta={{ partTypeOptions }}/>
         </div>
     )
 }

@@ -1,14 +1,16 @@
 import AuthenticatedLayout from "@/layouts/authenticated-layout";
 import { Head, usePage } from "@inertiajs/react";
 import { DateTime } from "luxon";
-import AddAttendanceDialog from "./partials/add-attendance-dialog";
 import ActivityBar from "./partials/activities-bar";
 import ActivityDetails from "./partials/activity-details";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 // import AddAttendeeDialog from "./partials/add-attendees-dialog";
 import AttendeeTable from "./partials/attendee-table";
 import DependentsTable from "./partials/dependents-table";
+import AddAttendeeDialog from "../activities/partials/add-attendees-dialog";
+import AddAttendeeManualDialog from "./partials/add-attendee-manual-dialog";
+import axios from "axios";
 
 interface Activity{
     ref: string;
@@ -27,11 +29,31 @@ interface AttendanceListPageProps extends Record<string, any> {
 export default function AttendanceList(){
     const { activities } = usePage<AttendanceListPageProps>().props;
     const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
+    const [ attendances, setAttendances ] = useState();
+
+    useEffect(() => {
+        if (!selectedActivity) return;
+        handleApiCallOnActivitySelect(selectedActivity.ref);
+    }, [selectedActivity]);
 
     const handleActivitySelect = (selected_activity: Activity) => {
-        console.log("Selected Activity:", selected_activity);
+        // console.log("Selected Activity:", selected_activity);
         setSelectedActivity(selected_activity);
     };
+
+    const handleApiCallOnActivitySelect = async(activityRef: string) => {
+        try{
+            const response = await axios.get(`/api/v1/attendances/getEmpDepdByActivity/${activityRef}`);
+            // console.log(response.data.attendances);
+            setAttendances(response.data.attendances)
+        }
+        catch (err){
+            console.log(err);
+        }
+        finally{
+            // setIsSubmitting(false);
+        }
+    }
 
     return (
         <AuthenticatedLayout
@@ -40,12 +62,16 @@ export default function AttendanceList(){
             <Head title="Attendances" />
 
             <div className="flex flex-1 flex-col gap-4 h-full">
-                <div className="flex-1 rounded-xl bg-muted/50 h-full p-6">
-                    <div className=" ">
+                <div className="flex-1 rounded-xl bg-muted/50 h-full p-6 flex gap-5 flex-col">
+                    <div >
                         <ActivityBar activities={activities} onSelect={handleActivitySelect}/>
                     </div>
                     <div className="flex flex-row w-full">
                         <ActivityDetails activity={selectedActivity}/>
+                    </div>
+                    <div className="flex flex-row justify-end gap-3 w-full">
+                        <AddAttendeeDialog activity={selectedActivity}/>
+                        <AddAttendeeManualDialog activity={selectedActivity}/>
                     </div>
                     {selectedActivity && (
                         <Tabs defaultValue="employee-tbl" className="w-full">
@@ -54,7 +80,7 @@ export default function AttendanceList(){
                                 <TabsTrigger value="dependent-tbl">Dependents</TabsTrigger>
                             </TabsList>
                             <TabsContent value="employee-tbl">
-                                <AttendeeTable/>
+                                <AttendeeTable attendances={attendances}/>
                             </TabsContent>
                             <TabsContent value="dependent-tbl">
                                 <DependentsTable />

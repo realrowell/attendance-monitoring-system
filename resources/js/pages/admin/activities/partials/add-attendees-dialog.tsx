@@ -29,8 +29,8 @@ interface AddAttendeeDialogProp extends Record<string, any>{
     activities: any;
 }
 
-export default function AddAttendeeDialog(){
-    const { partTypeOptions, activity } = usePage<AddAttendeeDialogProp>().props;
+export default function AddAttendeeDialog({ activity }: { activity: any | null }){
+    const { partTypeOptions } = usePage<AddAttendeeDialogProp>().props;
     const [employee, setEmployee] = useState<any | null>(null);
     const [qrScanDialog, setQrScanDialog] = useState(false);
     const [attendeeFormDialog, setAttendeeFormDialog] = useState(false);

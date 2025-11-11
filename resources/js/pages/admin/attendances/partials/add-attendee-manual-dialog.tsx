@@ -33,14 +33,15 @@ interface AddAttendeeManualDialog extends Record<string, any>{
     activities: any;
 }
 
-export default function AddAttendeeManualDialog(){
-    const { partTypeOptions, activity } = usePage<AddAttendeeManualDialog>().props;
+export default function AddAttendeeManualDialog({ activity }: { activity: any | null }){
+    const { partTypeOptions } = usePage<AddAttendeeManualDialog>().props;
     const [ open, onOpenChange ] = useState(false);
     const [ formData, setFormData ] = useState<FormData>({searchEmployee: ''});
     const [ isSubmitting, setIsSubmitting ] = useState(false);
     const [ employeeData, setEmployeeData ] = useState<any | null>(null);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [attendeeFormDialog, setAttendeeFormDialog] = useState(false);
+    // console.log("AddAttendeeManualDialog: ",activity)
 
     const handleFormSubmit = async(e: FormEvent) => {
         e.preventDefault();
