@@ -9,8 +9,7 @@ interface DependentsTableProps extends Record<string, any> {
     partTypeOptions: any;
 }
 
-export default function DependentsTable() {
-    const { attDependents, partTypeOptions, suffixes } = usePage<DependentsTableProps>().props;
+export default function DependentsTable({attDependents, partTypeOptions, }: DependentsTableProps) {
 
     return (
         <div className="overflow-x-auto max-w-[80vw]">

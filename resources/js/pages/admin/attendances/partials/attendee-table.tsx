@@ -1,0 +1,28 @@
+import { DataTable } from "@/components/data-table"
+import { columns, attEmployees } from "./att-employees-column"
+import { usePage } from "@inertiajs/react";
+import React from "react";
+import { Input } from "@/components/ui/input";
+
+// interface AttendeeTableProps extends Record<string, any> {
+//     // employees: any[];
+//     empClasses: Record<string, string>;
+//     suffixes: Record<string, string>
+//     departments: any;
+//     partTypeOptions: any;
+// }
+interface AttendeeTableProps {
+    attEmployees: any[]; // 👈 from parent
+    empClasses: any[];
+    suffixes: any[];
+    partTypeOptions: any[];
+}
+
+export default function AttendeeTable({attEmployees, empClasses, suffixes, partTypeOptions, }: AttendeeTableProps) {
+
+    return (
+        <div className="overflow-x-auto max-w-[80vw]">
+            <DataTable columns={columns} data={attEmployees} meta={{ empClasses, suffixes, partTypeOptions }} />
+        </div>
+    )
+}

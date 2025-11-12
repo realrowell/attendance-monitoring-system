@@ -14,13 +14,14 @@ class GetEmployeeListByNameApiController extends Controller
         $employees = Employee::whereHas('empDetails', function ($q) use ($name) {
             $q->where('first_name', 'LIKE', '%' . $name . '%')
                 ->orWhere('last_name', 'LIKE', '%' . $name . '%');
-                })->with(['departments',
-                                        'empDetails',
-                                        'dependents'=> function ($query) {
-                                                $query->where('is_active', true);
-                                            },
-                                        ])
-                ->get();
+        })->with([
+            'departments',
+            'empDetails',
+            'dependents' => function ($query) {
+                $query->where('is_active', true);
+            },
+        ])
+            ->get();
 
         return response()->json($employees);
     }
