@@ -21,6 +21,14 @@ export type attDependents = {
     dependents: any;
     attendances: any;
 }
+export type Attendances = {
+    ref: string;
+    activities: any;
+    date_time: string;
+    mop: string;
+    is_raffle: string;
+    att_employees: attDependents;
+}
 
 interface DependentsListPageProps{
     attDependents: any;
@@ -81,12 +89,12 @@ function ActionMenu({ attendance }: { attendance: attDependents }) {
     )
 }
 
-export const columns: ColumnDef<attDependents>[] = [
+export const columns: ColumnDef<Attendances>[] = [
     {
         accessorKey: "ref",
         header: "Attendance Ref",
         cell: ({row}) => {
-            return row.original.attendances.ref || "data unavailable";
+            return row.original?.attendances?.ref || "data unavailable";
         }
     },
     {

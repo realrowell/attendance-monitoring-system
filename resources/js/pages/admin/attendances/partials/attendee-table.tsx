@@ -4,17 +4,21 @@ import { usePage } from "@inertiajs/react";
 import React from "react";
 import { Input } from "@/components/ui/input";
 
-interface AttendeeTableProps extends Record<string, any> {
-    // employees: any[];
-    empClasses: Record<string, string>;
-    suffixes: Record<string, string>
-    departments: any;
-    attEmployees: any;
-    partTypeOptions: any;
+// interface AttendeeTableProps extends Record<string, any> {
+//     // employees: any[];
+//     empClasses: Record<string, string>;
+//     suffixes: Record<string, string>
+//     departments: any;
+//     partTypeOptions: any;
+// }
+interface AttendeeTableProps {
+    attEmployees: any[]; // 👈 from parent
+    empClasses: any[];
+    suffixes: any[];
+    partTypeOptions: any[];
 }
 
-export default function AttendeeTable({ attendances }: { attendances: any | null }) {
-    const { empClasses, suffixes, attEmployees, partTypeOptions } = usePage<AttendeeTableProps>().props;
+export default function AttendeeTable({attEmployees, empClasses, suffixes, partTypeOptions, }: AttendeeTableProps) {
 
     return (
         <div className="overflow-x-auto max-w-[80vw]">

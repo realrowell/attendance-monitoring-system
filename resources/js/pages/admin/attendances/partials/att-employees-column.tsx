@@ -41,7 +41,7 @@ interface EmployeesListPageProps{
     partTypeOptions: any;
 }
 
-function ActionMenu({ att_employees }: { att_employees: attEmployees }) {
+function ActionMenu({ attendanceRef }: { attendanceRef: string }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [open, setOpen] = useState(false);
 
@@ -84,7 +84,7 @@ function ActionMenu({ att_employees }: { att_employees: attEmployees }) {
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-                onClick={() => console.log("Delete", att_employees?.attendances?.ref)}
+                onClick={() => console.log("Delete", attendanceRef)}
                 className="cursor-pointer text-red-600"
             >
                 <Trash2 className="h-4 w-4 mr-2" /> Delete
@@ -95,12 +95,12 @@ function ActionMenu({ att_employees }: { att_employees: attEmployees }) {
     )
 }
 
-export const columns: ColumnDef<Attendances>[] = [
+export const columns: ColumnDef<attEmployees>[] = [
     {
         accessorKey: "ref",
         header: "Attendance Ref",
         cell: ({row}) => {
-            return row.original?.ref || "data unavailable";
+            return row.original?.attendances?.ref || "data unavailable";
         }
     },
     {
@@ -157,6 +157,6 @@ export const columns: ColumnDef<Attendances>[] = [
     {
         id: "actions",
         header: "Actions",
-        cell: ({ row }) => <ActionMenu att_employees={row.original} />,
+        cell: ({ row }) => <ActionMenu attendanceRef={row.original.ref} />,
     },
 ]

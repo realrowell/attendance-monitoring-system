@@ -24,12 +24,19 @@ interface Activity{
 interface AttendanceListPageProps extends Record<string, any> {
     activities: any;
     partTypeOptions: any;
+    empClasses: any;
+    suffixes: any;
+}
+
+interface AttendancesResponse {
+    att_employees: Record<string, any>[];
+    att_dependents: any[];
 }
 
 export default function AttendanceList(){
-    const { activities } = usePage<AttendanceListPageProps>().props;
+    const { activities, partTypeOptions, empClasses, suffixes } = usePage<AttendanceListPageProps>().props;
     const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
-    const [ attendances, setAttendances ] = useState();
+    const [ attendances, setAttendances ] = useState<AttendancesResponse>({att_employees: [], att_dependents: []});
 
     useEffect(() => {
         if (!selectedActivity) return;
@@ -44,8 +51,8 @@ export default function AttendanceList(){
     const handleApiCallOnActivitySelect = async(activityRef: string) => {
         try{
             const response = await axios.get(`/api/v1/attendances/getEmpDepdByActivity/${activityRef}`);
-            // console.log(response.data.attendances);
-            setAttendances(response.data.attendances)
+            console.log("AttendanceList",attendances?.att_employees);
+            setAttendances(response.data.attendances ?? []);
         }
         catch (err){
             console.log(err);
@@ -80,10 +87,10 @@ export default function AttendanceList(){
                                 <TabsTrigger value="dependent-tbl">Dependents</TabsTrigger>
                             </TabsList>
                             <TabsContent value="employee-tbl">
-                                <AttendeeTable attendances={attendances}/>
+                                <AttendeeTable attEmployees={attendances.att_employees} empClasses={empClasses} suffixes={suffixes} partTypeOptions={partTypeOptions}/>
                             </TabsContent>
                             <TabsContent value="dependent-tbl">
-                                <DependentsTable />
+                                <DependentsTable attDependents={attendances.att_dependents} partTypeOptions={partTypeOptions}/>
                             </TabsContent>
                         </Tabs>
                     )}

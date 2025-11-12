@@ -3,6 +3,8 @@
 namespace App\Actions\Data_fetch;
 
 use App\Models\Activity;
+use App\Models\AttDependent;
+use App\Models\AttEmployee;
 use App\Models\Attendance;
 use Illuminate\Validation\ValidationException;
 
@@ -39,14 +41,17 @@ class GetEmployeesDependentsByActivitySelect
             // ], 404);
         }
 
-        $attendances = Attendance::where('activity_id',$activity->id)
-                                    ->with([
-                                        'attEmployees.employees.empDetails',
-                                        'attEmployees.employees.departments',
-                                        'attDependents.dependents',
-                                    ])
-                                    ->orderBy('created_at','asc')
-                                    ->get();
-        return $attendances;
+        // $attendances = Attendance::where('activity_id',$activity->id)->get();
+        $att_employees = AttEmployee::whereHas('attendances', fn($q) => $q->where('activity_id', $activity->id))
+                            ->with(['attendances', 'employees.empDetails', 'employees.departments'])->get();
+        $att_dependents = AttDependent::whereHas('attendances', fn($q) => $q->where('activity_id', $activity->id))
+                            ->with(['attendances', 'dependents'])->get();
+        $data = [
+            // 'attendances' => $attendances,
+            'att_employees' => $att_employees,
+            'att_dependents' => $att_dependents,
+        ];
+
+        return $data;
     }
 }
