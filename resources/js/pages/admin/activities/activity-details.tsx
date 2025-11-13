@@ -113,7 +113,7 @@ export default function ActivityDetails(){
                             {/* <p>Manage the employee’s dependents below — add or remove as needed.</p> */}
                         </div>
                         <div className="flex flex-row justify-end gap-3 w-full">
-                            <AddAttendeeDialog/>
+                            {/* <AddAttendeeDialog/> */}
                             <AddAttendeeManualDialog/>
                         </div>
                     </div>

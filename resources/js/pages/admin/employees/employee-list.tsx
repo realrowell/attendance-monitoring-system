@@ -30,6 +30,7 @@ export default function EmployeeList(){
                             empClasses={empClasses}
                             departments={departments}
                         />
+                        <a href="/api/v1/export/csv/employees">Export</a>
                     </div>
                     <EmployeeTable />
                 </div>
