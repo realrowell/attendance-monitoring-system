@@ -20,6 +20,7 @@ export type attDependents = {
     mop: string;
     dependents: any;
     attendances: any;
+    full_name: string;
 }
 export type Attendances = {
     ref: string;
@@ -89,7 +90,7 @@ function ActionMenu({ attendance }: { attendance: attDependents }) {
     )
 }
 
-export const columns: ColumnDef<Attendances>[] = [
+export const columns: ColumnDef<attDependents>[] = [
     {
         accessorKey: "ref",
         header: "Attendance Ref",
@@ -102,7 +103,7 @@ export const columns: ColumnDef<Attendances>[] = [
         header: "Name",
         enableGlobalFilter: true,
         cell: ({row}) => {
-            return row.original?.dependents?.full_name ?? null;
+            return row.original?.full_name ?? null;
         }
     },
     {

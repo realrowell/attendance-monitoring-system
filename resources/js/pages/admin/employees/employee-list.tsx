@@ -2,6 +2,7 @@ import AuthenticatedLayout from "@/layouts/authenticated-layout";
 import { Head, usePage } from "@inertiajs/react";
 import EmployeeTable from "@/pages/admin/employees/partials/employee-table"
 import AddEmployeeDialog from "@/pages/admin/employees/partials/add-employee-dialog"
+import { Button } from "@/components/ui/button";
 
 interface EmployeeListPageProps extends Record<string, any> {
     suffixes: Record<string, string>;
@@ -25,12 +26,14 @@ export default function EmployeeList(){
                             <h2 className="text-2xl ">Employees List</h2>
                             <p>View the list of employees here.</p>
                         </div>
-                        <AddEmployeeDialog
-                            suffixes={suffixes}
-                            empClasses={empClasses}
-                            departments={departments}
-                        />
-                        <a href="/api/v1/export/csv/employees">Export</a>
+                        <div className="flex flex-row gap-3">
+                            <Button><a href="/api/v1/export/csv/employees" className="btn">Export</a></Button>
+                            <AddEmployeeDialog
+                                suffixes={suffixes}
+                                empClasses={empClasses}
+                                departments={departments}
+                            />
+                        </div>
                     </div>
                     <EmployeeTable />
                 </div>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityAttendeeRegistrationManagementController;
 use App\Http\Controllers\API\AttendanceApiController;
 use App\Http\Controllers\API\EmployeeApiController;
 use App\Http\Controllers\API\EmployeeDependentApiController;
@@ -24,4 +25,5 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('v1')->group(function () {
     Route::apiResource('/attendance', AttendanceApiController::class);
+    Route::post('/activity/register-attendee', [ActivityAttendeeRegistrationManagementController::class, 'RegisterAttendee']);
 });
