@@ -15,6 +15,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public const USER_STAT_ARCHIVE = 'archive';
 
     use HasFactory, Notifiable;
+    protected $primaryKey = 'id';
+    public $incrementing = false;     // VERY IMPORTANT
+    protected $keyType = 'string';    // VERY IMPORTANT
 
     /**
      * The attributes that are mass assignable.

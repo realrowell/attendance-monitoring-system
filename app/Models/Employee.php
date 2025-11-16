@@ -16,7 +16,8 @@ class Employee extends Model
         'dept_id',
         'emp_class',
         'emp_details_id',
-        'is_active'
+        'is_active',
+        'emp_no'
     ];
 
     public $incrementing = false;

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AttendeeManagementController;
 use App\Http\Controllers\Admin\DepartmentManagementController;
 use App\Http\Controllers\Admin\DependentManagementController;
 use App\Http\Controllers\Admin\EmployeeManagementController;
+use App\Http\Controllers\API\ExportCsvEmployeesApiController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -45,6 +46,7 @@ Route::middleware(['auth', 'verified'])->controller(DepartmentManagementControll
 Route::middleware(['auth', 'verified'])->controller(EmployeeManagementController::class)->group(function(){
     Route::post('/create-employee', 'CreateEmployee')->name('create.employee');
 });
+Route::post('/import/csv/employees', [ExportCsvEmployeesApiController::class, 'importCsvEmployees']);
 Route::middleware(['auth', 'verified'])->controller(DependentManagementController::class)->group(function(){
     Route::post('/dependents/create-dependent', 'CreateDependent')->name('create.dependent');
 });
