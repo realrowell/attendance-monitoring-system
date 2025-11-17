@@ -17,6 +17,7 @@ interface FormData {
     deptId: string;
     empClass: string;
     isActive: boolean;
+    empNo: string;
 }
 
 interface FormProps {
@@ -27,7 +28,7 @@ interface FormProps {
 }
 
 const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, departments }) => {
-    const [formData, setFormData] = useState<FormData>({ fname: '', mname: '', lname: '', suffix: '', deptId: '', empClass: '', isActive: true, });
+    const [formData, setFormData] = useState<FormData>({ fname: '', mname: '', lname: '', suffix: '', deptId: '', empClass: '', isActive: true, empNo: '' });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleChange = (
@@ -49,7 +50,7 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
         setIsSubmitting(true); // disable button
         try {
             await onSubmit(formData); // run parent callback (can be async)
-            setFormData({ fname: '', mname: '', lname: '', suffix: '', deptId: '', empClass: '', isActive: true }); // reset form if needed
+            setFormData({ fname: '', mname: '', lname: '', suffix: '', deptId: '', empClass: '', isActive: true, empNo: '' }); // reset form if needed
         } catch (error) {
             console.error('Error submitting form:', error);
         } finally {
@@ -115,6 +116,21 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
                     </Select>
                 </div>
             </div>
+            <div className="flex flex-col items-start gap-3">
+                <label htmlFor="isActive" >
+                    Employee Number
+                </label>
+                <Input
+                    id="emp_no"
+                    name="empNo"
+                    type="text"
+                    placeholder="employee number"
+                    value={formData.empNo}
+                    onChange={handleChange}
+                    className="border p-2 w-[50%] rounded"
+                    required
+                />
+            </div>
             <div className="flex flex-row w-full gap-3">
                 <div className="flex flex-col w-1/2 gap-2">
                     <label htmlFor="deptId">Department</label>
@@ -138,22 +154,6 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
                             ))}
                         </SelectContent>
                     </Select>
-                    {/* <select
-                        id="deptId"
-                        name="deptId"
-                        value={formData.suffix}
-                        onChange={handleChange}
-                        className="border p-2 w-full rounded"
-                    >
-                        <option value="">-- Select Suffix --</option>
-
-                        {departments &&
-                            Object.entries(departments).map(([key, label]) => (
-                                <option key={key} value={key}>
-                                    {label}
-                                </option>
-                        ))}
-                    </select> */}
                 </div>
                 <div className="flex flex-col w-1/2 gap-2">
                     <label htmlFor="name">Classification</label>
@@ -185,8 +185,9 @@ const AddEmployeeForm: React.FC<FormProps> = ({ onSubmit, suffixes, empClasses, 
                     type="checkbox"
                     checked={formData.isActive}
                     onChange={handleChange}
+                    className=" w-5 h-5 border border-gray-400 rounded-sm"
                 />
-                <label htmlFor="isActive" className="font-medium">
+                <label htmlFor="isActive" className="font-medium ">
                     Active
                 </label>
             </div>

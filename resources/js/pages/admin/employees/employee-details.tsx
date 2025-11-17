@@ -71,6 +71,15 @@ export default function EmployeeDetails(){
                                 />
                             </div>
                             <div className="flex flex-col gap-2">
+                                <Label htmlFor="FullName">Employee Number</Label>
+                                <Input
+                                    id="empNo"
+                                    name="empNo"
+                                    value={employee.emp_no}
+                                    disabled
+                                />
+                            </div>
+                            <div className="flex flex-col gap-2">
                                 <Label htmlFor="Department">Department</Label>
                                 <Input
                                     id="Department"

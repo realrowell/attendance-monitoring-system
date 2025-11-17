@@ -81,8 +81,8 @@ class CreateAttendanceRecordAction
                         'att_id' => $attendance->id,
                         'depd_id' => $dependent->id,
                         'is_present' => $dep['depd_is_present'],
-                        'full_name' => $dependent->full_name,
-                        'relation' => $dependent->depd_type,
+                        'full_name' => $dependent?->full_name ?? 'N/A',
+                        'relation' => $dependent?->depd_type ?? 'N/A',
                     ]);
                 }
             }
@@ -107,9 +107,9 @@ class CreateAttendanceRecordAction
                     'att_id' => $attendance->id,
                     'emp_id' => $employee->id,
                     'is_present' => $validated_data['emp_is_present'] ?? false,
-                    'full_name' => $empFullName,
-                    'emp_class' => $employee->emp_class,
-                    'department' => $employee->departments->dept_name,
+                    'full_name' => $empFullName ?? 'N/A',
+                    'emp_class' => $employee?->emp_class ?? 'N/A',
+                    'department' => $employee->departments?->dept_name ?? 'N/A',
                 ]);
             }
 

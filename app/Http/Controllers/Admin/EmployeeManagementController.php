@@ -22,7 +22,8 @@ class EmployeeManagementController extends Controller
             'suffix' => 'nullable|string',
             'deptId' => 'required|string',
             'empClass' => 'required|string',
-            'isActive' => 'nullable|boolean'
+            'isActive' => 'nullable|boolean',
+            'empNo' => 'nullable|string|max:255'
         ]);
         if($data['suffix'] == 'null'){
             $data['suffix'] = null;
@@ -40,7 +41,8 @@ class EmployeeManagementController extends Controller
             'dept_id' => $dept->id,
             'emp_class' => $data['empClass'],
             'emp_details_id' => $emp_detail->id,
-            'is_active' => $data['isActive']
+            'is_active' => $data['isActive'],
+            'emp_no' => $data['empNo'],
         ]);
     }
 }

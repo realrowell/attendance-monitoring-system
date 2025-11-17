@@ -29,7 +29,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-Route::middleware(['auth', 'verified'])->controller(AdminPageController::class)->group(function(){
+Route::middleware(['auth', 'verified'])->controller(AdminPageController::class)->group(function () {
     Route::get('/employees/emp-list', 'EmployeeListPage')->name('employees.list');
     Route::get('/employees/emp-details/{id}', 'EmployeeDetailsPage')->name('employee.details');
     Route::get('/departments/dept-list', 'DepartmentListPage')->name('departments.list');
@@ -38,21 +38,21 @@ Route::middleware(['auth', 'verified'])->controller(AdminPageController::class)-
     Route::get('/attendances/attendance-list', 'AttendanceListPage')->name('attendances.list');
 });
 
-Route::middleware(['auth', 'verified'])->controller(DepartmentManagementController::class)->group(function(){
+Route::middleware(['auth', 'verified'])->controller(DepartmentManagementController::class)->group(function () {
     Route::post('/create-department', 'CreateDepartment')->name('create.department');
     Route::post('/update-department', 'UpdateDepartment')->name('update.department');
 });
-Route::middleware(['auth', 'verified'])->controller(EmployeeManagementController::class)->group(function(){
+Route::middleware(['auth', 'verified'])->controller(EmployeeManagementController::class)->group(function () {
     Route::post('/create-employee', 'CreateEmployee')->name('create.employee');
 });
-Route::middleware(['auth', 'verified'])->controller(DependentManagementController::class)->group(function(){
+Route::middleware(['auth', 'verified'])->controller(DependentManagementController::class)->group(function () {
     Route::post('/dependents/create-dependent', 'CreateDependent')->name('create.dependent');
 });
-Route::middleware(['auth', 'verified'])->controller(ActivityManagementController::class)->group(function(){
+Route::middleware(['auth', 'verified'])->controller(ActivityManagementController::class)->group(function () {
     Route::post('/activities/create-activity', 'CreateActivity')->name('create.activity');
 });
-Route::middleware(['auth', 'verified'])->controller(AttendeeManagementController::class)->group(function(){
+Route::middleware(['auth', 'verified'])->controller(AttendeeManagementController::class)->group(function () {
     Route::post('/activities/create-attendee', 'CreateAttendee')->name('create.attendee');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

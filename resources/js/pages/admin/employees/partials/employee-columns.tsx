@@ -83,6 +83,10 @@ function ActionMenu({ employee }: { employee: Employee }) {
 
 export const columns: ColumnDef<Employee>[] = [
     {
+        accessorKey: "emp_no",
+        header: "Employee No."
+    },
+    {
         accessorKey: "name",
         header: "Name",
         cell: ({row, table}) => {

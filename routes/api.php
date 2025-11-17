@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityAttendeeRegistrationManagementController;
 use App\Http\Controllers\API\AttendanceApiController;
 use App\Http\Controllers\API\EmployeeApiController;
 use App\Http\Controllers\API\EmployeeDependentApiController;
+use App\Http\Controllers\API\ExportCsvEmployeesApiController;
 use App\Http\Controllers\API\GetEmployeeListByNameApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +17,8 @@ Route::prefix('v1')->group(function () {
     Route::apiResource('/employee/details', EmployeeApiController::class);
     Route::get('/employee/getByName/{name}',  [GetEmployeeListByNameApiController::class, 'index']);
     Route::get('/attendances/getEmpDepdByActivity/{activityRef}', [EmployeeDependentApiController::class, 'show']);
+    Route::get('/export/csv/employees', [ExportCsvEmployeesApiController::class, 'exportCsvEmployees']);
+    Route::post('/import/csv/employees', [ExportCsvEmployeesApiController::class, 'importCsvEmployees']);
 });
 // Route::prefix('v1')->controller(GetEmployeeListByNameApiController::class)->group(function () {
 //     Route::get('/employee/getByName/{name}', 'index');
@@ -22,4 +26,5 @@ Route::prefix('v1')->group(function () {
 
 Route::prefix('v1')->group(function () {
     Route::apiResource('/attendance', AttendanceApiController::class);
+    Route::post('/activity/register-attendee', [ActivityAttendeeRegistrationManagementController::class, 'RegisterAttendee']);
 });
