@@ -58,18 +58,15 @@ export default function EmployeeList(){
                             <p>View the list of employees here.</p>
                         </div>
                         <div className="flex flex-row gap-3">
-                            {/* <div className="p-4">
+                            <div className="p-4">
                                 <h2 className="text-xl font-bold mb-4">Import Employees CSV</h2>
 
                                 <form onSubmit={handleSubmit}>
                                     <input
                                         type="file"
                                         accept=".csv"
-                                        onChange={(e) => {
-                                            const f = e.target.files?.[0] ?? null;
-                                            console.log("Selected file:", f);
-                                            setFile(f);
-                                        }}
+                                        name="file"
+                                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
                                         className="mb-4 block"
                                         required
                                     />
@@ -82,7 +79,7 @@ export default function EmployeeList(){
                                         {loading ? "Importing..." : "Import CSV"}
                                     </button>
                                 </form>
-                            </div> */}
+                            </div>
                             <Button><a href="/api/v1/export/csv/employees" className="btn">Export</a></Button>
                             <AddEmployeeDialog
                                 suffixes={suffixes}
