@@ -32,7 +32,7 @@ export default function EmployeeList(){
         setLoading(true);
 
         try {
-            await axios.post("/import/csv/employees", formData);
+            await axios.post("/api/v1/import/csv/employees", formData);
 
             alert("Import successful!");
         } catch (err) {

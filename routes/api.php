@@ -18,7 +18,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/employee/getByName/{name}',  [GetEmployeeListByNameApiController::class, 'index']);
     Route::get('/attendances/getEmpDepdByActivity/{activityRef}', [EmployeeDependentApiController::class, 'show']);
     Route::get('/export/csv/employees', [ExportCsvEmployeesApiController::class, 'exportCsvEmployees']);
-
+    Route::post('/import/csv/employees', [ExportCsvEmployeesApiController::class, 'importCsvEmployees']);
 });
 // Route::prefix('v1')->controller(GetEmployeeListByNameApiController::class)->group(function () {
 //     Route::get('/employee/getByName/{name}', 'index');

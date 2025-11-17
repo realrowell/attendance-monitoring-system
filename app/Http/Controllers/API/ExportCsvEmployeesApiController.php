@@ -89,6 +89,7 @@ class ExportCsvEmployeesApiController extends Controller
                         'middle_name' => $middle_name,
                         'last_name' => $last_name,
                     ]);
+                    Log::info('Successfully updated Employee');
                 } else {
                     // CREATE
                     $empDetails = EmpDetail::create([
@@ -101,7 +102,9 @@ class ExportCsvEmployeesApiController extends Controller
                         'emp_class' => $emp_class,
                         'dept_id' => $dept->id,
                         'emp_details_id' => $empDetails->id,
+                        'is_active' => true,
                     ]);
+                    Log::info('Successfully created Employee');
                 }
                 // Your DB create/update logic here
             }
@@ -114,120 +117,6 @@ class ExportCsvEmployeesApiController extends Controller
 
             return back()->with('error', 'Import failed: ' . $e->getMessage());
         }
-
-
-        // DB::beginTransaction();
-
-        // try {
-        //     $handle = fopen($path, "r");
-
-        //     if (!$handle) {
-        //         return back()->with('error', 'Unable to open CSV file.');
-        //     }
-
-        //     $headerSkipped = false;
-        //     $firstLine = fgets($handle);
-        //     $firstLine = preg_replace('/^\xEF\xBB\xBF/', '', $firstLine); // remove BOM
-        //     $data = str_getcsv($firstLine);
-        //     while (($data = fgetcsv($handle, 1000, ",")) !== false) { // skip empty lines
-        //         if (empty(array_filter($data))) {
-        //             continue;
-        //         }
-
-        //         Log::info('CSV row read', $data); // confirm reading
-        //         // Skip empty or malformed rows
-        //         if (!$data || count($data) < 6) {
-        //             continue;
-        //         }
-
-        //         // Skip header row once
-        //         if (!$headerSkipped) {
-        //             $headerSkipped = true;
-        //             continue;
-        //         }
-
-        //         // Extract CSV columns
-        //         $emp_no      = trim($data[0]);
-        //         $first_name  = trim($data[1]);
-        //         $middle_name = trim($data[2]);
-        //         $last_name   = trim($data[3]);
-        //         $department  = trim($data[4]);
-        //         $emp_class   = trim($data[5]);
-
-        //         // Validate required
-        //         if (!$emp_no || !$first_name || !$last_name) {
-        //             continue; // You can also log invalid rows
-        //         }
-
-        //         // Find or create department
-        //         $dept = Department::firstOrCreate([
-        //             'dept_name' => $department
-        //         ]);
-
-        //         // Find employee (by emp_no or name)
-        //         $employee = Employee::where('emp_no', $emp_no)
-        //             ->orWhereHas('empDetails', function ($q) use ($first_name, $last_name) {
-        //                 $q->where(function ($q2) use ($first_name, $last_name) {
-        //                     if ($first_name) {
-        //                         $q2->where('first_name', 'LIKE', "%$first_name%");
-        //                     }
-        //                     if ($last_name) {
-        //                         $q2->where('last_name', 'LIKE', "%$last_name%");
-        //                     }
-        //                 });
-        //             })
-        //             ->first();
-
-        //         if ($employee) {
-        //             // UPDATE
-        //             $employee->update([
-        //                 'emp_no' => $emp_no,
-        //                 'emp_class' => $emp_class,
-        //                 'dept_id' => $dept->id,
-        //             ]);
-
-        //             // Ensure empDetails exists
-        //             if ($employee->empDetails) {
-        //                 $employee->empDetails->update([
-        //                     'first_name' => $first_name,
-        //                     'middle_name' => $middle_name,
-        //                     'last_name' => $last_name,
-        //                 ]);
-        //             } else {
-        //                 $employee->empDetails()->create([
-        //                     'first_name' => $first_name,
-        //                     'middle_name' => $middle_name,
-        //                     'last_name' => $last_name,
-        //                 ]);
-        //             }
-        //         } else {
-        //             // CREATE
-        //             $employee = Employee::create([
-        //                 'emp_no' => $emp_no,
-        //                 'emp_class' => $emp_class,
-        //                 'dept_id' => $dept->id,
-        //             ]);
-
-        //             $employee->empDetails()->create([
-        //                 'first_name' => $first_name,
-        //                 'middle_name' => $middle_name,
-        //                 'last_name' => $last_name,
-        //             ]);
-        //         }
-        //     }
-
-        //     fclose($handle);
-        //     Log::info('Before DB commit');
-        //     DB::commit();
-        //     Log::info('After DB commit');
-
-        //     return back()->with('success', 'Employees imported successfully.');
-        // } catch (\Exception $e) {
-        //     DB::rollBack();
-        //     if (isset($handle)) fclose($handle);
-
-        //     return back()->with('error', 'Import failed: ' . $e->getMessage());
-        // }
     }
 
 
@@ -243,7 +132,7 @@ class ExportCsvEmployeesApiController extends Controller
         ];
 
         // Define the column headings for the CSV file
-        $columns = ['ID', 'Name', 'Departments', 'Classification', 'QR String Data'];
+        $columns = ['ID', 'Employee No.', 'Name', 'Departments', 'Classification', 'QR String Data'];
 
         // Define the callback function that generates the CSV content chunk by chunk
         $callback = function () use ($columns) {
@@ -267,6 +156,7 @@ class ExportCsvEmployeesApiController extends Controller
                     // Format the user data as an array for fputcsv()
                     $row = [
                         $employee->public_id,
+                        $employee->emp_no,
                         $employee->empDetails->first_name . " " . $middleInitial . $employee->empDetails->last_name,
                         $employee->departments->dept_name,
                         $employee->emp_class,
