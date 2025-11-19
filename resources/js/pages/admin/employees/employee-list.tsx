@@ -3,9 +3,9 @@ import { Head, usePage } from "@inertiajs/react";
 import EmployeeTable from "@/pages/admin/employees/partials/employee-table"
 import AddEmployeeDialog from "@/pages/admin/employees/partials/add-employee-dialog"
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
 import { useForm } from "@inertiajs/react";
-import axios from "axios";
+import ImportCsvDependentsDialog from "./partials/import-csv-dependents-dialog";
+import ImportCsvEmployeesDialog from "./partials/import-csv-employees-dialog";
 
 interface EmployeeListPageProps extends Record<string, any> {
     suffixes: Record<string, string>;
@@ -15,34 +15,6 @@ interface EmployeeListPageProps extends Record<string, any> {
 
 export default function EmployeeList(){
     const { suffixes, empClasses, departments } = usePage<EmployeeListPageProps>().props;
-    const [file, setFile] = useState<File | null>(null);
-    const [loading, setLoading] = useState(false);
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        if (!file) {
-            alert("Please select a CSV file.");
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append("file", file);
-
-        setLoading(true);
-
-        try {
-            await axios.post("/api/v1/import/csv/employees", formData);
-
-            alert("Import successful!");
-        } catch (err) {
-            console.error(err);
-            alert("Import failed."+err);
-        } finally {
-            setLoading(false);
-        }
-    };
-
 
     return (
         <AuthenticatedLayout
@@ -58,7 +30,9 @@ export default function EmployeeList(){
                             <p>View the list of employees here.</p>
                         </div>
                         <div className="flex flex-row gap-3">
-                            <div className="p-4">
+                            <ImportCsvEmployeesDialog/>
+                            <ImportCsvDependentsDialog/>
+                            {/* <div className="p-4">
                                 <h2 className="text-xl font-bold mb-4">Import Employees CSV</h2>
 
                                 <form onSubmit={handleSubmit}>
@@ -79,7 +53,7 @@ export default function EmployeeList(){
                                         {loading ? "Importing..." : "Import CSV"}
                                     </button>
                                 </form>
-                            </div>
+                            </div> */}
                             <Button><a href="/api/v1/export/csv/employees" className="btn">Export</a></Button>
                             <AddEmployeeDialog
                                 suffixes={suffixes}

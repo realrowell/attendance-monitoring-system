@@ -6,6 +6,7 @@ use App\Http\Controllers\API\EmployeeApiController;
 use App\Http\Controllers\API\EmployeeDependentApiController;
 use App\Http\Controllers\API\ExportCsvEmployeesApiController;
 use App\Http\Controllers\API\GetEmployeeListByNameApiController;
+use App\Http\Controllers\API\ImportCsvEmpApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/employee/getByName/{name}',  [GetEmployeeListByNameApiController::class, 'index']);
     Route::get('/attendances/getEmpDepdByActivity/{activityRef}', [EmployeeDependentApiController::class, 'show']);
     Route::get('/export/csv/employees', [ExportCsvEmployeesApiController::class, 'exportCsvEmployees']);
-    Route::post('/import/csv/employees', [ExportCsvEmployeesApiController::class, 'importCsvEmployees']);
+    Route::post('/import/csv/employees', [ImportCsvEmpApiController::class, 'importCsvEmployees']);
+    Route::post('/import/csv/dependents', [ImportCsvEmpApiController::class, 'importCsvDependents']);
 });
 // Route::prefix('v1')->controller(GetEmployeeListByNameApiController::class)->group(function () {
 //     Route::get('/employee/getByName/{name}', 'index');
