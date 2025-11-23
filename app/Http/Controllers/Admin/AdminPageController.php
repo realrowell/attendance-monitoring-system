@@ -9,6 +9,7 @@ use App\Models\AttEmployee;
 use App\Models\Attendance;
 use App\Models\Department;
 use App\Models\Dependent;
+use App\Models\EmpActRegister;
 use App\Models\EmpDetail;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -69,13 +70,9 @@ class AdminPageController extends Controller
             'activityStatusOptions' => Activity::activityStatusOptions(),
             'activityTypeOptions' => Activity::participationTypeOptions(),
             'partTypeOptions' => Attendance::mopOptions(),
-            'attendances' => Attendance::where('activity_id', $activity->id)
-                ->with([
-                    'attEmployees.employees.empDetails',
-                    'attEmployees.employees.departments',
-                    'attDependents.dependents',
-                ])
-                ->get(),
+            'registeredEmployees' => EmpActRegister::where('activity_id', $activity->id)
+                                                ->with(['activities','employees.empDetails','employees.departments'])->get(),
+            // 'attendances' => EmpActRegister::where('activity_id', $activity->id)->get(),
             'suffixes' => EmpDetail::suffixOptions(),
             'empClasses' => Employee::empClassOptions(),
             'attDependents' => AttDependent::whereHas('attendances', fn($q) => $q->where('activity_id', $activity->id))

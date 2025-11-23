@@ -14,7 +14,8 @@ class ActivityAttendeeRegistrationManagementController extends Controller
     }
 
     public function RegisterAttendee(){
-        (new ActivityAttendeeRegistrationAction($this->request))->execute();
-        return back()->with('success', 'Attendee registered successfully.');
+        $result = (new ActivityAttendeeRegistrationAction($this->request))->execute();
+
+        return response()->json($result);
     }
 }

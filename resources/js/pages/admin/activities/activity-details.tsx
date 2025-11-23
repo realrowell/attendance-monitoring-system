@@ -10,25 +10,25 @@ import DependentsTable from "./partials/dependents-table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import AddAttendeeManualDialog from "./partials/add-attendee-manual-dialog";
 
-interface Activity {
-    ref: string;
-    activity_name: string;
-    activity_desc: string;
-    date_time: string | number | readonly string[] | undefined;
-    activity_status: string;
-    activity_type: string;
-}
+// interface Activity {
+//     ref: string;
+//     activity_name: string;
+//     activity_desc: string;
+//     date_time: string | number | readonly string[] | undefined;
+//     activity_status: string;
+//     activity_type: string;
+// }
 
 interface ActivityDetailsProps extends Record<string, any> {
-    activity: Activity;
+    registeredEmployees: any;
     activityStatusOptions: any;
     activityTypeOptions: any;
     partTypeOptions: any;
     attendances: any;
 }
 export default function ActivityDetails(){
-    const { activity, activityStatusOptions, activityTypeOptions, attendances } = usePage<ActivityDetailsProps>().props;
-    // console.log(activity.activity_name);
+    const { activity, activityStatusOptions, activityTypeOptions, registeredEmployees } = usePage<ActivityDetailsProps>().props;
+    console.log(registeredEmployees);
 
     return (
         <AuthenticatedLayout
@@ -117,19 +117,8 @@ export default function ActivityDetails(){
                             <AddAttendeeManualDialog/>
                         </div>
                     </div>
-                    <div className="flex flex-row items-center ">
-                        <Tabs defaultValue="employee-tbl" className="w-full">
-                            <TabsList>
-                                <TabsTrigger value="employee-tbl">Employees</TabsTrigger>
-                                <TabsTrigger value="dependent-tbl">Dependents</TabsTrigger>
-                            </TabsList>
-                            <TabsContent value="employee-tbl">
-                                <AttendeeTable/>
-                            </TabsContent>
-                            <TabsContent value="dependent-tbl">
-                                <DependentsTable />
-                            </TabsContent>
-                        </Tabs>
+                    <div className=" w-full">
+                        <AttendeeTable/>
                     </div>
                 </div>
             </div>

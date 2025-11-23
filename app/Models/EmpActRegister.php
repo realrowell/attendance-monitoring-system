@@ -26,4 +26,12 @@ class EmpActRegister extends Model
             }
         });
     }
+
+    public function employees()
+    {
+        return $this->hasOne(Employee::class, 'id', 'emp_id');
+    }
+    public function activities(){
+        return $this->hasOne(Activity::class, 'id', 'activity_id');
+    }
 }

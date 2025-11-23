@@ -12,11 +12,12 @@ import {
 import { useState } from "react"
 import { Input } from "@/components/ui/input"
 import { Link, router } from '@inertiajs/react';
+import { format } from 'date-fns';
 
-export type attEmployees = {
+export type registeredEmployees = {
     ref: string;
     activities: any;
-    date_time: any;
+    created_at: Date;
     mop: string;
     att_employees: any;
     employees: any;
@@ -32,7 +33,7 @@ interface EmployeesListPageProps{
     partTypeOptions: any;
 }
 
-function ActionMenu({ att_employees }: { att_employees: attEmployees }) {
+function ActionMenu({ att_employees }: { att_employees: registeredEmployees }) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [open, setOpen] = useState(false);
 
@@ -71,11 +72,11 @@ function ActionMenu({ att_employees }: { att_employees: attEmployees }) {
             <DropdownMenuItem
                 className="cursor-pointer"
             >
-                <Link href={route('employee.details',{ id: att_employees.attendances.ref })} className="flex flex-row"><ExternalLink className="h-4 w-4 mr-2" /> View Details</Link>
+                <Link href={route('employee.details',{ id: att_employees.employees.public_id })} className="flex flex-row"><ExternalLink className="h-4 w-4 mr-2" /> View Details</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-                onClick={() => console.log("Delete", att_employees.attendances.ref)}
+                onClick={() => console.log("Delete", att_employees.employees.public_id)}
                 className="cursor-pointer text-red-600"
             >
                 <Trash2 className="h-4 w-4 mr-2" /> Delete
@@ -86,14 +87,7 @@ function ActionMenu({ att_employees }: { att_employees: attEmployees }) {
     )
 }
 
-export const columns: ColumnDef<attEmployees>[] = [
-    {
-        accessorKey: "ref",
-        header: "Attendance Ref",
-        cell: ({row}) => {
-            return row.original.attendances.ref || "data unavailable";
-        }
-    },
+export const columns: ColumnDef<registeredEmployees>[] = [
     {
         accessorKey: "name",
         header: "Name",
@@ -135,14 +129,7 @@ export const columns: ColumnDef<attEmployees>[] = [
         accessorKey: "date_time",
         header: "Timestamp",
         cell: ({ row }) => {
-            return row.original.attendances.date_time;
-        },
-    },
-    {
-        header: "Mode of Participation",
-        cell: ({ row, table }) => {
-            const partTypes = (table.options.meta as EmployeesListPageProps | undefined)?.partTypeOptions || {};
-            return partTypes[row.original?.attendances?.mop]?.label || row.original?.attendances?.mop || "—";
+            return format(new Date(row.original.created_at), "Pp");
         },
     },
     {
