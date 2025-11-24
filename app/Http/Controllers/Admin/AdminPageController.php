@@ -72,7 +72,8 @@ class AdminPageController extends Controller
             'partTypeOptions' => Attendance::mopOptions(),
             'registeredEmployees' => EmpActRegister::where('activity_id', $activity->id)
                                                 ->with(['activities','employees.empDetails','employees.departments'])->get(),
-            // 'attendances' => EmpActRegister::where('activity_id', $activity->id)->get(),
+            'employees' => Employee::where('is_active', true)
+                                    ->with(['empDetails', 'departments'])->get(),
             'suffixes' => EmpDetail::suffixOptions(),
             'empClasses' => Employee::empClassOptions(),
             'attDependents' => AttDependent::whereHas('attendances', fn($q) => $q->where('activity_id', $activity->id))
