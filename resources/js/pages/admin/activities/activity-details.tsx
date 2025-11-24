@@ -4,11 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import ActivityQrCode from "./partials/activity-qr-code";
-import AddAttendeeDialog from "./partials/add-attendees-dialog";
 import AttendeeTable from "./partials/attendee-table";
-import DependentsTable from "./partials/dependents-table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import AddAttendeeManualDialog from "./partials/add-attendee-manual-dialog";
+import RegisterEmployeeDialog from "./partials/register-employee-dialog";
 
 // interface Activity {
 //     ref: string;
@@ -28,7 +25,6 @@ interface ActivityDetailsProps extends Record<string, any> {
 }
 export default function ActivityDetails(){
     const { activity, activityStatusOptions, activityTypeOptions, registeredEmployees } = usePage<ActivityDetailsProps>().props;
-    console.log(registeredEmployees);
 
     return (
         <AuthenticatedLayout
@@ -109,12 +105,11 @@ export default function ActivityDetails(){
                     </div>
                     <div className="flex md:flex-row sm:flex-col flex-col items-start justify-between gap-3">
                         <div className="flex flex-col text-start items-start gap-1 w-full">
-                            <h2 className="text-xl ">Attendees</h2>
-                            {/* <p>Manage the employee’s dependents below — add or remove as needed.</p> */}
+                            <h2 className="text-xl ">Registered Employees</h2>
+                            <p>Total registered employees: {registeredEmployees.length}</p>
                         </div>
                         <div className="flex flex-row justify-end gap-3 w-full">
-                            {/* <AddAttendeeDialog/> */}
-                            <AddAttendeeManualDialog/>
+                            <RegisterEmployeeDialog/>
                         </div>
                     </div>
                     <div className=" w-full">
