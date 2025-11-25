@@ -96,13 +96,13 @@ function ActionMenu({ attendanceRef }: { attendanceRef: string }) {
 }
 
 export const columns: ColumnDef<attEmployees>[] = [
-    {
-        accessorKey: "ref",
-        header: "Attendance Ref",
-        cell: ({row}) => {
-            return row.original?.attendances?.ref || "data unavailable";
-        }
-    },
+    // {
+    //     accessorKey: "ref",
+    //     header: "Attendance Ref",
+    //     cell: ({row}) => {
+    //         return row.original?.attendances?.ref || "data unavailable";
+    //     }
+    // },
     {
         accessorKey: "name",
         header: "Name",

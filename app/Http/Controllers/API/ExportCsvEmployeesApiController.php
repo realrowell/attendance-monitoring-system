@@ -40,6 +40,7 @@ class ExportCsvEmployeesApiController extends Controller
                     }
                     $qr_data_string = json_encode([
                         'id' => $employee->public_id,
+                        'emp_no' => $employee->emp_no,
                         'name' => $employee->empDetails->first_name . " " . $middleInitial . $employee->empDetails->last_name,
                         'department' => $employee->departments->dept_name
                     ]);

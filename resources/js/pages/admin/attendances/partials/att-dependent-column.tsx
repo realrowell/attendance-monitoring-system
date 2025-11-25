@@ -91,13 +91,13 @@ function ActionMenu({ attendance }: { attendance: attDependents }) {
 }
 
 export const columns: ColumnDef<attDependents>[] = [
-    {
-        accessorKey: "ref",
-        header: "Attendance Ref",
-        cell: ({row}) => {
-            return row.original?.attendances?.ref || "data unavailable";
-        }
-    },
+    // {
+    //     accessorKey: "ref",
+    //     header: "Attendance Ref",
+    //     cell: ({row}) => {
+    //         return row.original?.attendances?.ref || "data unavailable";
+    //     }
+    // },
     {
         accessorKey: "dependents.full_name",
         header: "Name",

@@ -55,8 +55,5 @@ Route::middleware(['auth', 'verified'])->controller(ActivityManagementController
 Route::middleware(['auth', 'verified'])->controller(AttendeeManagementController::class)->group(function () {
     Route::post('/activities/create-attendee', 'CreateAttendee')->name('create.attendee');
 });
-Route::middleware(['auth', 'verified'])->controller(ActivityRegisterEmployeeManagementController::class)->group(function () {
-    Route::post('/activities/register-employee', 'RegisterEmployee')->name('activity.register.employee');
-});
 
 require __DIR__ . '/auth.php';

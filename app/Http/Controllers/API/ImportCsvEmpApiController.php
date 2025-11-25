@@ -18,23 +18,29 @@ class ImportCsvEmpApiController extends Controller
         $file = $request->file('file');
         $path = $file->getPathname();
 
-        $handle = fopen($path, "r");
-        if (!$handle) {
-            return back()->with('error', 'Unable to open CSV file.');
-        }
+        // Read raw contents
+        $raw = file_get_contents($path);
 
-        // Remove BOM from the first line (if present)
-        $firstLine = fgets($handle);
-        $firstLine = preg_replace('/^\xEF\xBB\xBF/', '', $firstLine);
+        // Detect encoding
+        $encoding = mb_detect_encoding($raw, ['UTF-8', 'ISO-8859-1', 'WINDOWS-1252'], true);
 
-        // Assume first line is header
-        $header = str_getcsv($firstLine);
+        // Convert to UTF-8
+        $converted = mb_convert_encoding($raw, 'UTF-8', $encoding);
+
+        // Save to temp file
+        $tmp = tempnam(sys_get_temp_dir(), 'csv_');
+        file_put_contents($tmp, $converted);
+
+        // Now open the converted UTF-8 file
+        $handle = fopen($tmp, 'r');
+
+        // Skip the first row (header)
+        $header = fgetcsv($handle);
 
         DB::beginTransaction();
 
         try {
             while (($data = fgetcsv($handle, 1000, ",")) !== false) {
-
                 // Skip empty rows
                 if (empty(array_filter($data))) continue;
 
@@ -42,6 +48,7 @@ class ImportCsvEmpApiController extends Controller
                 if (count($data) < 6) continue;
 
                 // Log::info('CSV row read', $data);
+
                 // Extract CSV columns
                 $emp_no      = trim($data[0]);
                 $first_name  = trim($data[1]);
@@ -124,17 +131,24 @@ class ImportCsvEmpApiController extends Controller
         $file = $request->file('file');
         $path = $file->getPathname();
 
-        $handle = fopen($path, "r");
-        if (!$handle) {
-            return back()->with('error', 'Unable to open CSV file.');
-        }
+        // Read raw contents
+        $raw = file_get_contents($path);
 
-        // Remove BOM from the first line (if present)
-        $firstLine = fgets($handle);
-        $firstLine = preg_replace('/^\xEF\xBB\xBF/', '', $firstLine);
+        // Detect encoding
+        $encoding = mb_detect_encoding($raw, ['UTF-8', 'ISO-8859-1', 'WINDOWS-1252'], true);
 
-        // Assume first line is header
-        $header = str_getcsv($firstLine);
+        // Convert to UTF-8
+        $converted = mb_convert_encoding($raw, 'UTF-8', $encoding);
+
+        // Save to temp file
+        $tmp = tempnam(sys_get_temp_dir(), 'csv_');
+        file_put_contents($tmp, $converted);
+
+        // Now open the converted UTF-8 file
+        $handle = fopen($tmp, 'r');
+
+        // Skip the first row (header)
+        $header = fgetcsv($handle);
 
         DB::beginTransaction();
 

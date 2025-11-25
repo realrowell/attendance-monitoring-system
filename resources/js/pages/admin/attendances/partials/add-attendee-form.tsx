@@ -9,6 +9,7 @@ interface AttDependents {
 
 interface FormData {
     emp_id: string;
+    emp_no?: string;
     emp_is_present: boolean;
     dependents: AttDependents[];
 }
@@ -20,12 +21,13 @@ interface FormProps {
 
 const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
     // console.log(employee);
-    const [formData, setFormData] = useState<FormData>({ emp_id: '', emp_is_present: true, dependents: [],});
+    const [formData, setFormData] = useState<FormData>({ emp_id: '', emp_no: '', emp_is_present: true, dependents: [],});
     const [isSubmitting, setIsSubmitting] = useState(false);
     useEffect(() => {
         if (employee) {
             setFormData({
                 emp_id: employee.public_id ?? '',
+                emp_no: employee.emp_no ?? '',
                 emp_is_present: true,
                 dependents: employee.dependents.map((depd: any) => ({
                     depd_id: depd.public_id,
@@ -41,7 +43,7 @@ const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
         setIsSubmitting(true); // disable button
         try {
             await onSubmit(formData); // run parent callback (can be async)
-            setFormData({ emp_id: '', emp_is_present: true, dependents: [],}); // reset form if needed
+            setFormData({ emp_id: '', emp_no: '', emp_is_present: true, dependents: [],}); // reset form if needed
         } catch (error) {
             console.error('Error submitting form:', error);
         } finally {
@@ -86,7 +88,6 @@ const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
         empDetail?.suffix ?? ""
     ].filter(Boolean).join(" ");
 
-
     return (
         <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">
             <div className='flex flex-row gap-2'>
@@ -100,9 +101,9 @@ const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
                 <label htmlFor="isPresent">{fullName}</label>
             </div>
             <div className="flex flex-col gap-2">
-            <h3 className="font-medium">Dependents</h3>
+            <h3 className="font-medium">Dependentss</h3>
                 {employee.dependents.map((depd: any, index: number) => (
-                    <div key={depd.depd_id} className="flex items-center gap-2">
+                    <div key={`${depd.public_id}-${index}`} className="flex items-center gap-2">
                         <input
                             id={`dep-${depd.public_id}`}
                             type="checkbox"

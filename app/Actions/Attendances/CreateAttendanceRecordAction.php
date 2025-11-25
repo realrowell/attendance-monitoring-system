@@ -7,6 +7,7 @@ use App\Models\AttDependent;
 use App\Models\AttEmployee;
 use App\Models\Attendance;
 use App\Models\Dependent;
+use App\Models\EmpActRegister;
 use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Validation\ValidationException;
@@ -30,6 +31,7 @@ class CreateAttendanceRecordAction
         $validated_data = $this->data->validate([
             'activity_id' => 'required|string|exists:activities,ref',
             'emp_id' => 'required|string|exists:employees,public_id',
+            'emp_no' => 'required|string|exists:employees,emp_no',
             'emp_is_present' => 'nullable|boolean',
             'part_type' => 'required|string',
             'dependents' => 'nullable|array',
@@ -39,6 +41,16 @@ class CreateAttendanceRecordAction
 
         $employee = Employee::where('public_id', $validated_data['emp_id'])->first();
         $activity = Activity::where('ref', $validated_data['activity_id'])->first();
+
+        $isRegistered = EmpActRegister::where('emp_id', $employee->id)
+            ->where('activity_id', $activity->id)
+            ->exists();
+
+        if (!$isRegistered) {
+            throw ValidationException::withMessages([
+                'general' => 'Employee is not registered for this activity.',
+            ]);
+        }
 
         // dd($employee ?? null);
 
