@@ -63,7 +63,7 @@ export default function RegisterEmployeeDialog(){
                 <DialogHeader>
                     <DialogTitle>Register Employees</DialogTitle>
                 </DialogHeader>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-4 overflow-y-auto max-h-[60vh] p-2">
                     {localEmployees && (localEmployees.length > 0) ? (
                         localEmployees.map((employee: any) => {
                             const isRegistered = registeredEmployees.some((regEmp: any) => regEmp.emp_id === employee.id);

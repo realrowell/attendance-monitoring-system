@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 // import AddAttendeeDialog from "./partials/add-attendees-dialog";
 import AttendeeTable from "./partials/attendee-table";
 import DependentsTable from "./partials/dependents-table";
-import AddAttendeeDialog from "../activities/partials/add-attendees-dialog";
+import AddAttendeeDialog from "./partials/add-attendees-dialog";
 import AddAttendeeManualDialog from "./partials/add-attendee-manual-dialog";
 import axios from "axios";
 
@@ -51,7 +51,7 @@ export default function AttendanceList(){
     const handleApiCallOnActivitySelect = async(activityRef: string) => {
         try{
             const response = await axios.get(`/api/v1/attendances/getEmpDepdByActivity/${activityRef}`);
-            console.log("AttendanceList",attendances?.att_employees);
+            // console.log("AttendanceList",attendances?.att_employees);
             setAttendances(response.data.attendances ?? []);
         }
         catch (err){
