@@ -14,7 +14,6 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CreateAttendanceRecordAction
 {
@@ -37,6 +36,7 @@ class CreateAttendanceRecordAction
             'dependents' => 'nullable|array',
             'dependents.*.depd_id' => 'required|string',
             'dependents.*.depd_is_present' => 'required|boolean',
+            'is_raffle' => 'nullable|boolean',
         ]);
 
         $employee = Employee::where('public_id', $validated_data['emp_id'])->first();
@@ -62,7 +62,8 @@ class CreateAttendanceRecordAction
             $attendance = Attendance::create([
                 'activity_id' => $activity->id,
                 'date_time' => Carbon::now(),
-                'mop' => $validated_data['part_type']
+                'mop' => $validated_data['part_type'],
+                'is_raffle' => $validated_data['is_raffle'] ?? false,
             ]);
 
             $skippedDependents = [];

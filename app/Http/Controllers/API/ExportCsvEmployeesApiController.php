@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Response;
 
 class ExportCsvEmployeesApiController extends Controller
@@ -15,17 +15,19 @@ class ExportCsvEmployeesApiController extends Controller
         // Define the HTTP headers for the CSV download
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="employee_export_core_php.csv"',
+            'Content-Disposition' => 'attachment; filename="employee_export_'.Carbon::now().'.csv"',
             'Pragma' => 'no-cache',
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Expires' => '0',
         ];
 
         // Define the column headings for the CSV file
-        $columns = ['ID', 'Employee No.', 'Name', 'Departments', 'Classification', 'QR String Data'];
+        $columns = ['id', 'emp_no.', 'name', 'department', 'classification', 'qr_string_data'];
 
         // Define the callback function that generates the CSV content chunk by chunk
         $callback = function () use ($columns) {
+            // Send UTF-8 BOM so Excel reads characters correctly
+            echo "\xEF\xBB\xBF";
             $file = fopen('php://output', 'w'); // Open the output stream
 
             // Write the column headers to the CSV file
@@ -42,8 +44,9 @@ class ExportCsvEmployeesApiController extends Controller
                         'id' => $employee->public_id,
                         'emp_no' => $employee->emp_no,
                         'name' => $employee->empDetails->first_name . " " . $middleInitial . $employee->empDetails->last_name,
-                        'department' => $employee->departments->dept_name
-                    ]);
+                        'department' => $employee->departments->dept_name,
+                        'classification' => $employee->emp_class,
+                    ], JSON_UNESCAPED_UNICODE);
                     // Format the user data as an array for fputcsv()
                     $row = [
                         $employee->public_id,

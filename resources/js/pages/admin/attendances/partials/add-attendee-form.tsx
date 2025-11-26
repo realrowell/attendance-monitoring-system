@@ -12,6 +12,7 @@ interface FormData {
     emp_no?: string;
     emp_is_present: boolean;
     dependents: AttDependents[];
+    is_raffle: boolean;
 }
 
 interface FormProps {
@@ -21,7 +22,7 @@ interface FormProps {
 
 const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
     // console.log(employee);
-    const [formData, setFormData] = useState<FormData>({ emp_id: '', emp_no: '', emp_is_present: true, dependents: [],});
+    const [formData, setFormData] = useState<FormData>({ emp_id: '', emp_no: '', emp_is_present: true, dependents: [], is_raffle: false});
     const [isSubmitting, setIsSubmitting] = useState(false);
     useEffect(() => {
         if (employee) {
@@ -33,6 +34,7 @@ const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
                     depd_id: depd.public_id,
                     depd_is_present: false, // default
                 })),
+                is_raffle: false,
             });
         }
     }, [employee]);
@@ -43,7 +45,7 @@ const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
         setIsSubmitting(true); // disable button
         try {
             await onSubmit(formData); // run parent callback (can be async)
-            setFormData({ emp_id: '', emp_no: '', emp_is_present: true, dependents: [],}); // reset form if needed
+            setFormData({ emp_id: '', emp_no: '', emp_is_present: false, dependents: [], is_raffle: false}); // reset form if needed
         } catch (error) {
             console.error('Error submitting form:', error);
         } finally {
@@ -97,11 +99,12 @@ const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
                     type="checkbox"
                     checked={formData.emp_is_present}
                     onChange={handleChange}
+                    className='w-5 h-5 form-checkbox accent-green-700 transition duration-150 ease-in-out'
                 />
                 <label htmlFor="isPresent">{fullName}</label>
             </div>
             <div className="flex flex-col gap-2">
-            <h3 className="font-medium">Dependentss</h3>
+                <h3 className="font-medium">Dependents</h3>
                 {employee.dependents.map((depd: any, index: number) => (
                     <div key={`${depd.public_id}-${index}`} className="flex items-center gap-2">
                         <input
@@ -109,10 +112,25 @@ const AddAttendeeForm: React.FC<FormProps> = ({ onSubmit, employee }) => {
                             type="checkbox"
                             checked={formData.dependents[index]?.depd_is_present || false}
                             onChange={() => handleDependentChange(index)}
+                            className='w-5 h-5 form-checkbox accent-green-700 transition duration-150 ease-in-out'
                         />
                         <label htmlFor={`dep-${depd.public_id}`}>{depd.full_name}</label>
                     </div>
                 ))}
+            </div>
+            <div className="flex flex-col gap-2">
+                <h3 className="font-medium">Raffle Check</h3>
+                    <div className="flex items-center gap-2">
+                        <input
+                            id="isRaffle"
+                            name="is_raffle"
+                            type="checkbox"
+                            checked={formData.is_raffle }
+                            onChange={handleChange}
+                            className='w-5 h-5 form-checkbox accent-green-700 transition duration-150 ease-in-out'
+                        />
+                    <label htmlFor="isRaffle">Included on Raffle?</label>
+                </div>
             </div>
             <Button type='submit'>{isSubmitting ? "Submitting..." : "Submit"}</Button>
         </form>

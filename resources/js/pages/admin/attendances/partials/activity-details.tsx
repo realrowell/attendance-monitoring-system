@@ -28,30 +28,34 @@ export default function ActivityDetails({ activity }: { activity: Activity | nul
         <Card className="w-full">
             <CardHeader>
                 <div className="flex flex-row gap-5 items-center">
-                    <SquareCheck size={30}/>
+                    <SquareCheck size={30} className="hidden md:block"/>
                     <div className="flex flex-col">
                         <CardTitle>{activity.activity_name}</CardTitle>
-                        <CardDescription>{activity?.activity_desc ?? ''}</CardDescription>
+                        <CardDescription className="truncate">
+                            {activity?.activity_desc ?? ''}
+                        </CardDescription>
                     </div>
                 </div>
             </CardHeader>
             <CardContent>
-                <table className="gap-3">
-                    <tbody>
-                        <tr>
-                            <td className="pr-4 font-bold">Date Time:</td>
-                            <td>{format(activity.date_time, 'MMM d, yyyy hh:mma')}</td>
-                        </tr>
-                        <tr>
-                            <td className="pr-4 font-bold">Activity Status:</td>
-                            <td>{activity.activity_status}</td>
-                        </tr>
-                        <tr>
-                            <td className="pr-4 font-bold">Activity Type:</td>
-                            <td>{activity.activity_type}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div className="flex flex-row gap-2">
+                    <table className="gap-3">
+                        <tbody>
+                            <tr>
+                                <td className="pr-4 font-bold">Date Time:</td>
+                                <td>{format(activity.date_time, 'MMM d, yyyy hh:mma')}</td>
+                            </tr>
+                            <tr>
+                                <td className="pr-4 font-bold">Activity Status:</td>
+                                <td>{activity.activity_status}</td>
+                            </tr>
+                            <tr>
+                                <td className="pr-4 font-bold">Activity Type:</td>
+                                <td>{activity.activity_type}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </CardContent>
         </Card>
     )
