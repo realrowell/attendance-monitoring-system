@@ -59,6 +59,7 @@ export default function AddAttendeeFormDialog({
 
     // console.log(activity);
     const handleFormSubmit = async (data: any) => {
+        console.log(data);
         const finalData = {
             ...data,
             activity_id: activity?.ref ?? null,

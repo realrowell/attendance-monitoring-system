@@ -59,12 +59,12 @@ export default function ActivityBar({ activities, onSelect }: ActivityBarProps){
                     {activities.map((activity: Activity)=>(
                         <Card
                             key={activity.ref}
-                            className="hover:border-white cursor-pointer text-nowrap flex-shrink-0 min-w-[250px] transition duration-300 "
+                            className="hover:border-white cursor-pointer text-nowrap flex-shrink-0 min-w-[250px] max-w-[300px] transition duration-300 "
                             onClick={() => handleClick(activity)}
                         >
                             <CardHeader>
-                                <CardTitle className="text-base ">{activity.activity_name}</CardTitle>
-                                <CardDescription>{activity.activity_desc}</CardDescription>
+                                <CardTitle className="text-base truncate">{activity.activity_name}</CardTitle>
+                                <CardDescription className="truncate">{activity.activity_desc}</CardDescription>
                             </CardHeader>
                         </Card>
                     ))}
