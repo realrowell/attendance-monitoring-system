@@ -23,7 +23,7 @@ const QrScanner: React.FC<QrCodeScannerProps> = ({ onEmployeeFound }) => {
         try {
             const parsed = JSON.parse(data);
             setScanResult(JSON.stringify(parsed, null, 2));
-            const response = await axios.get(`/api/v1/employee/details/${parsed.id}`);
+            const response = await axios.post(`/api/v1/employee/details`, parsed);
             const employeeDetails = response.data.employee;
             onEmployeeFound(employeeDetails);
             // console.log("QR Data:", response.data.employee);
@@ -54,7 +54,7 @@ const QrScanner: React.FC<QrCodeScannerProps> = ({ onEmployeeFound }) => {
         <div className="flex flex-col items-center gap-4">
             <h2 className="text-xl font-semibold">Scan Employee QR</h2>
 
-            <div className="w-[250px] h-[250px] overflow-hidden rounded-xl shadow">
+            <div className="w-[100%] h-[100%] overflow-hidden rounded-xl shadow">
                 <QrReader
                     delay={10}
                     onError={handleError}

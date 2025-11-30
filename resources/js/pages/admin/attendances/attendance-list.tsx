@@ -37,6 +37,7 @@ export default function AttendanceList(){
     const { activities, partTypeOptions, empClasses, suffixes } = usePage<AttendanceListPageProps>().props;
     const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
     const [ attendances, setAttendances ] = useState<AttendancesResponse>({att_employees: [], att_dependents: []});
+    const [ isShowAttendanceDialog, setIsShowAttendanceDialog ] = useState(false);
 
     useEffect(() => {
         if (!selectedActivity) return;
@@ -45,6 +46,7 @@ export default function AttendanceList(){
 
     const handleActivitySelect = (selected_activity: Activity) => {
         // console.log("Selected Activity:", selected_activity);
+        setIsShowAttendanceDialog(true);
         setSelectedActivity(selected_activity);
     };
 
@@ -76,10 +78,12 @@ export default function AttendanceList(){
                     <div className="flex flex-row w-full">
                         <ActivityDetails activity={selectedActivity}/>
                     </div>
-                    <div className="flex flex-row justify-end gap-3 w-full">
-                        <AddAttendeeDialog activity={selectedActivity}/>
-                        <AddAttendeeManualDialog activity={selectedActivity}/>
-                    </div>
+                    {isShowAttendanceDialog && (
+                        <div className="flex flex-row justify-end gap-3 w-full">
+                            <AddAttendeeDialog activity={selectedActivity} />
+                            <AddAttendeeManualDialog activity={selectedActivity} />
+                        </div>
+                    )}
                     {selectedActivity && (
                         <Tabs defaultValue="employee-tbl" className="w-full">
                             <TabsList>

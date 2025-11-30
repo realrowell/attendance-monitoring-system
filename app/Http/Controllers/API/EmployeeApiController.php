@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class EmployeeApiController extends Controller
 {
@@ -24,13 +25,11 @@ class EmployeeApiController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
+    public function fetch(Request $request){
+        Log::info('Fetching employee details for:'. $request->all);
         return [
-            "employee" => Employee::where('public_id', $id)
+            "employee" => Employee::where('public_id', $request['id'])
+                                    ->orWhere('emp_no', $request['emp_no'])
                                     ->with([
                                         'departments',
                                         'empDetails',
@@ -40,6 +39,26 @@ class EmployeeApiController extends Controller
                                         ])
                                     ->first(),
         ];
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show($data)
+    {
+        // Log::info('Fetching employee details for:', $data);
+        // return [
+        //     "employee" => Employee::where('public_id', $data['id'])
+        //                             ->orWhere('emp_no', $data['emp_no'])
+        //                             ->with([
+        //                                 'departments',
+        //                                 'empDetails',
+        //                                 'dependents'=> function ($query) {
+        //                                         $query->where('is_active', true);
+        //                                     },
+        //                                 ])
+        //                             ->first(),
+        // ];
     }
 
     /**

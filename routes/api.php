@@ -15,7 +15,8 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::prefix('v1')->group(function () {
-    Route::apiResource('/employee/details', EmployeeApiController::class);
+    // Route::apiResource('/employee/details', EmployeeApiController::class);
+    Route::post('/employee/details', [EmployeeApiController::class, 'fetch']);
     Route::get('/employee/getByName/{name}',  [GetEmployeeListByNameApiController::class, 'index']);
     Route::get('/attendances/getEmpDepdByActivity/{activityRef}', [EmployeeDependentApiController::class, 'show']);
     Route::get('/export/csv/employees', [ExportCsvEmployeesApiController::class, 'exportCsvEmployees']);

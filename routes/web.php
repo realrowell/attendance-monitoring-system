@@ -20,6 +20,9 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+// Route::get('/', function () {
+//     return Inertia::render('auth.login');
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('dashboard');
