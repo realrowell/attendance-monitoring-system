@@ -6,6 +6,7 @@ use App\Models\Activity;
 use App\Models\AttDependent;
 use App\Models\AttEmployee;
 use App\Models\Attendance;
+use App\Models\EmpActRegister;
 use Illuminate\Validation\ValidationException;
 
 class GetEmployeesDependentsByActivitySelect
@@ -46,10 +47,12 @@ class GetEmployeesDependentsByActivitySelect
                             ->with(['attendances', 'employees.empDetails', 'employees.departments'])->get();
         $att_dependents = AttDependent::whereHas('attendances', fn($q) => $q->where('activity_id', $activity->id))
                             ->with(['attendances', 'dependents'])->get();
+        $registered_count = EmpActRegister::where('activity_id', $activity->id)->count();
         $data = [
             // 'attendances' => $attendances,
             'att_employees' => $att_employees,
             'att_dependents' => $att_dependents,
+            'registered_count' => $registered_count,
         ];
 
         return $data;

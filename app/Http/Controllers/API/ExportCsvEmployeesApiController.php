@@ -68,4 +68,9 @@ class ExportCsvEmployeesApiController extends Controller
         // Return a StreamedResponse which handles the download
         return Response::stream($callback, 200, $headers);
     }
+
+
+    public function exportAttendanceCsv(){
+        // To be implemented
+    }
 }

@@ -26,18 +26,19 @@ interface AttendanceListPageProps extends Record<string, any> {
     partTypeOptions: any;
     empClasses: any;
     suffixes: any;
+    registeredEmployees: any;
 }
 
 interface AttendancesResponse {
     att_employees: Record<string, any>[];
     att_dependents: any[];
+    registered_count: number;
 }
 
 export default function AttendanceList(){
-    const { activities, partTypeOptions, empClasses, suffixes } = usePage<AttendanceListPageProps>().props;
+    const { activities, partTypeOptions, empClasses, suffixes, registeredEmployees } = usePage<AttendanceListPageProps>().props;
     const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
-    const [ attendances, setAttendances ] = useState<AttendancesResponse>({att_employees: [], att_dependents: []});
-    const [ isShowAttendanceDialog, setIsShowAttendanceDialog ] = useState(false);
+    const [ attendances, setAttendances ] = useState<AttendancesResponse>({att_employees: [], att_dependents: [], registered_count: 0});
 
     useEffect(() => {
         if (!selectedActivity) return;
@@ -46,14 +47,13 @@ export default function AttendanceList(){
 
     const handleActivitySelect = (selected_activity: Activity) => {
         // console.log("Selected Activity:", selected_activity);
-        setIsShowAttendanceDialog(true);
         setSelectedActivity(selected_activity);
     };
 
     const handleApiCallOnActivitySelect = async(activityRef: string) => {
         try{
             const response = await axios.get(`/api/v1/attendances/getEmpDepdByActivity/${activityRef}`);
-            // console.log("AttendanceList",attendances?.att_employees);
+            // console.log("AttendanceList",response.data.attendances.registered_count);
             setAttendances(response.data.attendances ?? []);
         }
         catch (err){
@@ -76,15 +76,14 @@ export default function AttendanceList(){
                         <ActivityBar activities={activities} onSelect={handleActivitySelect}/>
                     </div>
                     <div className="flex flex-row w-full">
-                        <ActivityDetails activity={selectedActivity}/>
+                        <ActivityDetails activity={selectedActivity} att_employees={attendances.att_employees} registeredCount={attendances.registered_count} />
                     </div>
-                    {isShowAttendanceDialog && (
+                    {selectedActivity && (
+                        <>
                         <div className="flex flex-row justify-end gap-3 w-full">
                             <AddAttendeeDialog activity={selectedActivity} />
                             <AddAttendeeManualDialog activity={selectedActivity} />
                         </div>
-                    )}
-                    {selectedActivity && (
                         <Tabs defaultValue="employee-tbl" className="w-full">
                             <TabsList>
                                 <TabsTrigger value="employee-tbl">Employees</TabsTrigger>
@@ -97,6 +96,7 @@ export default function AttendanceList(){
                                 <DependentsTable attDependents={attendances.att_dependents} partTypeOptions={partTypeOptions}/>
                             </TabsContent>
                         </Tabs>
+                        </>
                     )}
                 </div>
             </div>
