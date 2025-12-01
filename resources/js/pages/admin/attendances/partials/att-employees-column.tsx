@@ -141,7 +141,14 @@ export const columns: ColumnDef<attEmployees>[] = [
         },
     },
     {
-        accessorKey: "date_time",
+        accessorKey: "employees.attendances.is_raffle",
+        header: "Raffle Entry",
+        cell: ({ row}) => {
+            return row.original?.attendances?.is_raffle == 1 ? 'Yes' : 'No';
+        },
+    },
+    {
+        accessorKey: "employees.attendances.created_at",
         header: "Timestamp",
         cell: ({ row }) => {
             return row.original?.attendances?.date_time;
