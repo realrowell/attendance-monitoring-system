@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Activity;
+use App\Models\AttEmployee;
 use App\Models\Employee;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Response;
@@ -15,7 +17,7 @@ class ExportCsvEmployeesApiController extends Controller
         // Define the HTTP headers for the CSV download
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="employee_export_'.Carbon::now().'.csv"',
+            'Content-Disposition' => 'attachment; filename="employee_export_' . Carbon::now() . '.csv"',
             'Pragma' => 'no-cache',
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Expires' => '0',
@@ -70,7 +72,57 @@ class ExportCsvEmployeesApiController extends Controller
     }
 
 
-    public function exportAttendanceCsv(){
-        // To be implemented
+    public function exportAttendanceCsv($refActivity)
+    {
+        $activity = Activity::where('ref', $refActivity)->firstOrFail();
+
+        // Define the HTTP headers for the CSV download
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="attendance_export_' . Carbon::now() . '.csv"',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        // Define the column headings for the CSV file
+        $columns = ['Name', 'Raffle Entry', 'Date Time'];
+
+        // Define the callback function that generates the CSV content chunk by chunk
+        $callback = function () use ($columns, $activity) {
+            // Send UTF-8 BOM so Excel reads characters correctly
+            echo "\xEF\xBB\xBF";
+            $file = fopen('php://output', 'w'); // Open the output stream
+
+            // Write the column headers to the CSV file
+            fputcsv($file, $columns);
+
+            // Fetch data efficiently in chunks to manage memory
+            AttEmployee::whereHas('attendances', function ($q) use ($activity) {
+                $q->where('activity_id', $activity->id);
+            })
+                ->with(['attendances' => function ($q) use ($activity) {
+                    $q->where('activity_id', $activity->id);
+                }])
+                ->chunk(2000, function ($att_employees) use ($file) {
+                    foreach ($att_employees as $att_employee) {
+                        // Format the user data as an array for fputcsv()
+                        $attendance = $att_employee->attendances->first();
+                        $row = [
+                            $att_employee->full_name,
+                            $att_employee->attendances->is_raffle ? 'Yes' : 'No',
+                            $att_employee->attendances->created_at,
+                        ];
+
+                        // Write the data row to the CSV file
+                        fputcsv($file, $row);
+                    }
+                });
+
+            fclose($file); // Close the output stream
+        };
+
+        // Return a StreamedResponse which handles the download
+        return Response::stream($callback, 200, $headers);
     }
 }
