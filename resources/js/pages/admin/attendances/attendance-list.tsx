@@ -11,6 +11,7 @@ import DependentsTable from "./partials/dependents-table";
 import AddAttendeeDialog from "./partials/add-attendees-dialog";
 import AddAttendeeManualDialog from "./partials/add-attendee-manual-dialog";
 import axios from "axios";
+import { Button } from "@/components/ui/button";
 
 interface Activity{
     ref: string;
@@ -80,9 +81,14 @@ export default function AttendanceList(){
                     </div>
                     {selectedActivity && (
                         <>
-                        <div className="flex flex-row justify-end gap-3 w-full">
-                            <AddAttendeeDialog activity={selectedActivity} />
-                            <AddAttendeeManualDialog activity={selectedActivity} />
+                        <div className="flex flex-row md:justify-between justify-end gap-3 w-full">
+                            <div className="hidden md:flex flex-row justify-start">
+                                <Button><a href={`/api/v1/export/csv/attendance/${selectedActivity.ref}`}>Export</a></Button>
+                            </div>
+                            <div className="flex flex-row gap-3 justify-end">
+                                <AddAttendeeDialog activity={selectedActivity} />
+                                <AddAttendeeManualDialog activity={selectedActivity} />
+                            </div>
                         </div>
                         <Tabs defaultValue="employee-tbl" className="w-full">
                             <TabsList>
