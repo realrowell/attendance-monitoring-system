@@ -83,7 +83,8 @@ export default function AttendanceList(){
                         <>
                         <div className="flex flex-row md:justify-between justify-end gap-3 w-full">
                             <div className="hidden md:flex flex-row justify-start">
-                                <Button><a href={`/api/v1/export/csv/attendance/${selectedActivity.ref}`}>Export</a></Button>
+                                {/* <Button><a href={`/api/v1/export/csv/attendance/${selectedActivity.ref}`}>Export</a></Button> */}
+                                <Button><a href={`/export/csv/attendance/${selectedActivity.ref}`}>Export</a></Button>
                             </div>
                             <div className="flex flex-row gap-3 justify-end">
                                 <AddAttendeeDialog activity={selectedActivity} />
