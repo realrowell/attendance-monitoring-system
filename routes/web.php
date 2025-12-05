@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\AttendeeManagementController;
 use App\Http\Controllers\Admin\DepartmentManagementController;
 use App\Http\Controllers\Admin\DependentManagementController;
 use App\Http\Controllers\Admin\EmployeeManagementController;
+use App\Http\Controllers\API\ExportCsvEmployeesApiController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -58,5 +59,7 @@ Route::middleware(['auth', 'verified'])->controller(ActivityManagementController
 Route::middleware(['auth', 'verified'])->controller(AttendeeManagementController::class)->group(function () {
     Route::post('/activities/create-attendee', 'CreateAttendee')->name('create.attendee');
 });
+
+Route::get('/export/csv/attendance/{refActivity}', [ExportCsvEmployeesApiController::class, 'exportAttendanceCsv'])->name('export.attendance.csv');
 
 require __DIR__ . '/auth.php';

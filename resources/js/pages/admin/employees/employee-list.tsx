@@ -54,7 +54,7 @@ export default function EmployeeList(){
                                     </button>
                                 </form>
                             </div> */}
-                            <Button><a href="/api/v1/export/csv/employees" className="btn">Export</a></Button>
+                            <Button><a href="/export/csv/employees" className="btn">Export</a></Button>
                             <AddEmployeeDialog
                                 suffixes={suffixes}
                                 empClasses={empClasses}

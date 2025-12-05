@@ -86,7 +86,7 @@ class ExportCsvEmployeesApiController extends Controller
         ];
 
         // Define the column headings for the CSV file
-        $columns = ['Name', 'Raffle Entry', 'Date Time'];
+        $columns = ['Name', 'Grand Raffle Entry', 'Date Time'];
 
         // Define the callback function that generates the CSV content chunk by chunk
         $callback = function () use ($columns, $activity) {

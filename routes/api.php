@@ -20,7 +20,7 @@ Route::prefix('v1')->group(function () {
     Route::get('/employee/getByName/{name}',  [GetEmployeeListByNameApiController::class, 'index']);
     Route::get('/attendances/getEmpDepdByActivity/{activityRef}', [EmployeeDependentApiController::class, 'show']);
     Route::get('/export/csv/employees', [ExportCsvEmployeesApiController::class, 'exportCsvEmployees']);
-    Route::get('/export/csv/attendance/{refActivity}', [ExportCsvEmployeesApiController::class, 'exportAttendanceCsv']);
+    // Route::get('/export/csv/attendance/{refActivity}', [ExportCsvEmployeesApiController::class, 'exportAttendanceCsv']);
     Route::post('/import/csv/employees', [ImportCsvEmpApiController::class, 'importCsvEmployees']);
     Route::post('/import/csv/dependents', [ImportCsvEmpApiController::class, 'importCsvDependents']);
 });
